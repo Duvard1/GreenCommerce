@@ -35,4 +35,8 @@ public class User {
     private String email;
 
     private String password;
+
+    @Column(name = "profile_photo")
+    private String profilePhoto;
+
 }
