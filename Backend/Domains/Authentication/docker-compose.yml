@@ -33,6 +33,21 @@ services:
     networks:
       - greencommerce-net
 
+
+  login-service:
+    build:
+      context: ./Login/app/login-service
+      dockerfile: Dockerfile
+    container_name: login-service
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    ports:
+      - "8082:8082"
+    networks:
+      - greencommerce-net
+
+
 volumes:
   mysql_data:
 
