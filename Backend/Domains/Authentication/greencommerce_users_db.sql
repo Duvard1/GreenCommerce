@@ -1,4 +1,4 @@
-CREATE DATABASE greencommerce_users_db;
+CREATE DATABASE IF NOT EXISTS greencommerce_users_db;
 USE greencommerce_users_db;
 
 CREATE TABLE users (
@@ -14,5 +14,3 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     profile_photo varchar(200) DEFAULT NULL
 );
-
-SELECT * FROM users;
