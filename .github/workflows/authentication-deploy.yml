@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - develop
-    paths:
-      - 'Backend/Domains/Authentication/**'
 
 jobs:
   deploy:
@@ -21,7 +19,7 @@ jobs:
           host: ${{ secrets.EC2_AUTH_HOST }}
           username: ${{ secrets.EC2_AUTH_USER }}
           key: ${{ secrets.EC2_AUTH_KEY }}
-          source: "Backend/Domains/Authentication"
+          source: "Backend/Domains/Authentication/*"
           target: "~/GreenCommerce/Auth"
           port: 22
           overwrite: true
@@ -36,6 +34,6 @@ jobs:
           port: 22
           script: |
             cd ~/GreenCommerce/Auth
-            docker-compose down --rmi all --volumes --remove-orphans || true
-            docker system prune -af || true
+            docker-compose down --rmi all --volumes --remove-orphans
+            docker system prune -af
             docker-compose up --build -d
