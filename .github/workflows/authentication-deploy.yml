@@ -33,7 +33,7 @@ jobs:
           username: ${{ secrets.EC2_AUTH_USER }}
           key: ${{ secrets.EC2_AUTH_KEY }}
           script: |
-            cd ~/GreenCommerce/Auth
+            cd /home/ubuntu/GreenCommerce/Auth/Backend/Domains/Authentication
             sudo docker-compose down --rmi all --volumes --remove-orphans || true
             sudo docker system prune -af || true
             sudo docker-compose up --build -d
