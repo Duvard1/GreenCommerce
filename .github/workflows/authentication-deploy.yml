@@ -1,20 +1,17 @@
-name: Deploy Authentication Domain to EC2
+name: Deploy Authentication to AWS EC2
 
 on:
   push:
     branches:
-      - develop
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Debug source files
-        run: ls -laR Backend/Domains/Authentication
 
       - name: Copy Authentication files to EC2
         uses: appleboy/scp-action@v0.1.7
@@ -23,11 +20,8 @@ jobs:
           username: ${{ secrets.EC2_AUTH_USER }}
           key: ${{ secrets.EC2_AUTH_KEY }}
           source: |
-            Backend/Domains/Authentication/Register/app/register-service
-            Backend/Domains/Authentication/Login/app/login-service
-            Backend/Domains/Authentication/docker-compose.yml
-            Backend/Domains/Authentication/greencommerce_users_db.sql
-          target: "/home/ubuntu/GreenCommerce/Auth"
+            Backend/Domains/Authentication
+          target: "~/GreenCommerce/Auth"
           port: 22
           overwrite: true
           rm: true
@@ -38,9 +32,8 @@ jobs:
           host: ${{ secrets.EC2_AUTH_HOST }}
           username: ${{ secrets.EC2_AUTH_USER }}
           key: ${{ secrets.EC2_AUTH_KEY }}
-          port: 22
           script: |
-            cd /home/ubuntu/GreenCommerce/Auth
-            docker-compose down --rmi all --volumes --remove-orphans || true
-            docker system prune -af || true
-            docker-compose up --build -d
+            cd ~/GreenCommerce/Auth
+            sudo docker-compose down --rmi all --volumes --remove-orphans || true
+            sudo docker system prune -af || true
+            sudo docker-compose up --build -d
