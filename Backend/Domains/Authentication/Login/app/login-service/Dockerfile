@@ -1,14 +1,12 @@
-# Usa OpenJDK 17 como base
-FROM openjdk:17-jdk-slim
-
-# Establece el directorio de trabajo dentro del contenedor
+# Etapa 1: Build con Maven
+FROM maven:3.9.6-eclipse-temurin-17 AS builder
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copia el .jar compilado
-COPY target/login-service-0.0.1-SNAPSHOT.jar app.jar
-
-# Expone el puerto del microservicio
+# Etapa 2: Ejecutar la app
+FROM openjdk:17-jdk-slim
+VOLUME /tmp
+COPY --from=builder /app/target/*.jar app.jar
 EXPOSE 8082
-
-# Ejecuta la aplicación
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "/app.jar"]
