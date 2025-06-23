@@ -22,7 +22,11 @@ jobs:
           host: ${{ secrets.EC2_AUTH_HOST }}
           username: ${{ secrets.EC2_AUTH_USER }}
           key: ${{ secrets.EC2_AUTH_KEY }}
-          source: "Backend/Domains/Authentication/*"
+          source: |
+            Backend/Domains/Authentication/Register
+            Backend/Domains/Authentication/Login
+            Backend/Domains/Authentication/docker-compose.yml
+            Backend/Domains/Authentication/greencommerce_users_db.sql
           target: "/home/ubuntu/GreenCommerce/Auth"
           port: 22
           overwrite: true
