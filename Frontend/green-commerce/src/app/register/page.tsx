@@ -40,7 +40,7 @@ const handleSubmit = (e: React.FormEvent) => {
   e.preventDefault();
   console.log('Datos a enviar:', formData);
 
-  fetch('http://localhost:8081/auth/register', {
+  fetch('http://44.193.255.85:8081/auth/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

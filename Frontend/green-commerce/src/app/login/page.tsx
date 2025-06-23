@@ -31,7 +31,7 @@ const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
   try {
-    const response = await fetch('http://localhost:8082/auth/login', {
+    const response = await fetch('http://44.193.255.85:8082/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
