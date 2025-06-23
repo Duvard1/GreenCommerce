@@ -21,7 +21,7 @@ jobs:
           key: ${{ secrets.EC2_AUTH_KEY }}
           source: |
             Backend/Domains/Authentication
-          target: "~/GreenCommerce/Auth"
+          target: /home/ubuntu/GreenCommerce/Auth
           port: 22
           overwrite: true
           rm: true
