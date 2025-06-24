@@ -34,11 +34,12 @@ jobs:
           key: ${{ secrets.EC2_USERS_KEY }}
           script: |
             cd /home/ubuntu/GreenCommerce/Backend/Domains/Users/ListUser
-            ls -la /home/ubuntu/GreenCommerce/Backend/Domains/Users/ListUser
-            cat << EOF > .env
-            ${{ secrets.LISTUSER_ENV_FILE }}
-            EOF
-            cat .env
+            echo "DB_HOST=${{ secrets.LISTUSER_DB_HOST }}" > .env
+            echo "DB_PORT=${{ secrets.LISTUSER_DB_PORT }}" >> .env
+            echo "DB_NAME=${{ secrets.LISTUSER_DB_NAME }}" >> .env
+            echo "DB_USER=${{ secrets.LISTUSER_DB_USER }}" >> .env
+            echo "DB_PASSWORD=${{ secrets.LISTUSER_DB_PASSWORD }}" >> .env
+            echo "JWT_SECRET=${{ secrets.LISTUSER_JWT_SECRET }}" >> .env
             sudo docker build -t list-user-service .
             sudo docker stop list-user-service || true
             sudo docker rm list-user-service || true
