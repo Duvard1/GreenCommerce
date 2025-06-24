@@ -1,50 +1,52 @@
-# 🧾 Register Service - GreenCommerce
+# 🧾 Register Microervice - GreenCommerce
 
-Este microservicio forma parte del sistema distribuido **GreenCommerce**, orientado a la gestión de usuarios. Permite el registro de nuevos usuarios en la plataforma, conectándose a una base de datos **MySQL** mediante **Spring Boot** y gestionado a través de **Docker Compose**.
-
----
-
-## 🚀 Tecnologías utilizadas
-
-- Java 17
-- Spring Boot 3.5.0
-- MySQL 8
-- Docker & Docker Compose
-- Hibernate JPA
-- Spring Security
-- JPA / Hibernate
+This microservice is part of the **GreenCommerce** distributed system, focused on user management. It allows the registration of new users on the platform, connecting to a **MySQL** database using **Spring Boot**, and is managed through **Docker Compose**.
 
 ---
 
-## ⚙️ Configuración de la base de datos
+## 🚀 Technologies Used
 
-En el archivo `docker-compose.yml` se define un servicio `mysql-db` con:
-
-- Usuario: `root`
-- Contraseña: `root`
-- Base de datos: `greencommerce_users_db`
-
-Este script se inicializa automáticamente con `greencommerce_users_db.sql`.
+- Java 17  
+- Spring Boot 3.5.0  
+- MySQL 8  
+- Docker & Docker Compose  
+- Hibernate JPA  
+- Spring Security  
+- JPA / Hibernate  
 
 ---
 
-## 🐳 Cómo levantar el entorno local con Docker Compose
+## ⚙️ Database Configuration
 
-### 1. Limpiar contenedores y volúmenes previos
+This microservice connects to a **MySQL** database hosted on **AWS RDS**. The configuration is done using the following credentials:
+
+- **User**: `your rds user`
+- **Password**: `your rds password`
+- **Database**: `greencommerce_users_db`
+- **Host**: `(provided by AWS RDS)`
+
+Access from this microservice is made using the RDS host URL and the credentials specified in the `application.properties` file.
+
+
+---
+
+## 🐳 How to Set Up Locally with Docker Compose
+
+### 1. Clean up previous containers and volumes
 
 ```bash
 docker-compose down -v
 ```
 
-### 2. Construir e iniciar los servicios
+### 2. Build and start the services
 ```bash
 docker-compose up --build
 ```
 
-El servicio estará disponible en:
+The service will be available at:
 📍 http://localhost:8081/auth/register
 
-### Ejemplo de request
+### Request Example
 
 {
   "name": "Juan",
@@ -60,6 +62,7 @@ El servicio estará disponible en:
 
 ---
 
-### 🧑‍💼 Autor
-Desarrollado para la materia de Programación Distribuida
-Proyecto: GreenCommerce
+### 🧑‍💻 Author
+Developed by: Duvard Cisneros
+
+Project: GreenCommerce – Distributed Programming, UCE

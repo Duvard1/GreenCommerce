@@ -1,14 +1,15 @@
-# 🔐 Login Service - GreenCommerce
+# 🔐 Login Microservice - GreenCommerce
 
-Este microservicio forma parte del sistema distribuido **GreenCommerce**, orientado a la autenticación de usuarios. Permite iniciar sesión en la plataforma mediante **Spring Boot**, verificando credenciales contra una base de datos **MySQL** y gestionado a través de **Docker Compose**.
+This microservice is part of the **GreenCommerce** distributed system, focused on user authentication. It allows users to log in to the platform using **Spring Boot**, verifying credentials against a **MySQL** database (AWS RDS), and is managed through **Docker Compose**.
+
 
 ---
 
-## 🚀 Tecnologías utilizadas
+## 🚀 Technologies Used
 
 - Java 17  
 - Spring Boot 3.5.0  
-- MySQL 8  
+- MySQL (RDS AWS)
 - Docker & Docker Compose  
 - Hibernate JPA  
 - Spring Security  
@@ -16,37 +17,38 @@ Este microservicio forma parte del sistema distribuido **GreenCommerce**, orient
 
 ---
 
-## ⚙️ Configuración de la base de datos
+## ⚙️ Database Configuration
 
-En el archivo `docker-compose.yml` se define un servicio `mysql-db` compartido con otros microservicios. Este contiene:
+This microservice connects to a **MySQL** database hosted on **AWS RDS**. The configuration is done using the following credentials:
 
-- Usuario: `root`  
-- Contraseña: `root`  
-- Base de datos: `greencommerce_users_db`  
+- **User**: `your rds user`
+- **Password**: `your rds password`
+- **Database**: `greencommerce_users_db`
+- **Host**: `(provided by AWS RDS)`
 
-El acceso desde este microservicio se realiza utilizando el hostname `mysql-db`, interno al entorno Docker.
+Access from this microservice is made using the RDS host URL and the credentials specified in the `application.properties` file.
 
 ---
 
-## 🐳 Cómo levantar el entorno local con Docker Compose
+## 🐳 How to Set Up Locally with Docker Compose
 
-### 1. Limpiar contenedores y volúmenes previos
+### 1. Clean up previous containers and volumes
 
 ```bash
 docker-compose down -v
 ```
 
-### 2. Construir e iniciar los servicios
+### 2. Build and start the services
 
 ```bash
 docker-compose up --build
 ```
 
-El servicio estará disponible en:
+The service will be available at:
 📍 http://localhost:8082/auth/login
 
 
-### 🧪 Ejemplo de request
+### 🧪 Request Example
 
 ```bash
 {
@@ -65,6 +67,7 @@ El servicio estará disponible en:
 
 ---
 
-### 🧑‍💼 Autor
-Desarrollado para la materia de Programación Distribuida
-Proyecto: GreenCommerce
+### 🧑‍💻 Author
+Developed by: Duvard Cisneros
+
+Project: GreenCommerce – Distributed Programming, UCE

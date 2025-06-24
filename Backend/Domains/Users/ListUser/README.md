@@ -1,40 +1,40 @@
 # 📄 ListUser Microservice — GreenCommerce
 
-Este microservicio forma parte del ecosistema **GreenCommerce**, un e-commerce distribuido para la venta de materiales de construcción liviana. El propósito de `ListUser` es exponer un endpoint que permite a un usuario autenticado obtener su información personal desde una base de datos MySQL.
+This microservice is part of the **GreenCommerce** ecosystem, a distributed e-commerce platform for selling lightweight construction materials. The purpose of `ListUser` is to expose an endpoint that allows an authenticated user to retrieve their personal information from a MySQL database.
 
-## 📌 Funcionalidad
+## 📌 Functionality
 
-Permite consultar la información del usuario autenticado a través de un token JWT enviado en la cabecera `Authorization`. Devuelve un objeto JSON con los datos del usuario.
+Allows querying the authenticated user's information through a JWT token sent in the `Authorization` header. It returns a JSON object with the user's data.
 
-## 🚀 Cómo correr el microservicio
+## 🚀 How to Run the Microservice
 
-### ✅ Requisitos previos
+### ✅ Prerequisites
 
 - Docker
-- Archivo `.env` con las siguientes variables:
+- `.env` file with the following variables:
 
 ```env
-DB_HOST=greencommerce-mysql.ceapm4qx3wnk.us-east-1.rds.amazonaws.com
-DB_PORT=3306
+DB_HOST=greencommerce-mysql...rds.amazonaws.com
+DB_PORT=3...
 DB_NAME=greencommerce_users_db
-DB_USER=admin
-DB_PASSWORD=**********
-JWT_SECRET=MiClaveJWTSecretaSegura!!1234567890
+DB_USER= your user of rds
+DB_PASSWORD= **********
+JWT_SECRET=secretkey...
 ```
 
-### 🐳 Ejecutar con Docker
-Construir la imagen:
+🐳 Run with Docker
+Build the image:
 
 ```bash
 docker build -t list-user-service .
 ```
 
-### Ejecutar el contenedor:
+### Run the container:
 ```bash
 docker run -p 8081:8081 --env-file .env list-user-service
 ```
 
-### Visita el endpoint:
+### Visit the endpoint:
 ```bash
 GET http://localhost:8081/user/info
 Headers: Authorization: Bearer <JWT_TOKEN>
@@ -42,16 +42,15 @@ Headers: Authorization: Bearer <JWT_TOKEN>
 
 ---
 
-## 🧪 Endpoint expuesto
-Este endpoint devuelve la información personal del usuario autenticado.
+## 🧪 Exposed Endpoint
+This endpoint returns the authenticated user's personal information.
 
 ```bash
 Authorization: Bearer <jwt_token>
 
 ```
 
-###
-Ejemplo de respuesta
+### Example Response
 ```json
 {
   "name": "Juan",
@@ -68,10 +67,10 @@ Ejemplo de respuesta
 ```
 ---
 
-### 🔐 Seguridad
-Este microservicio usa JWT (HS256) para proteger el acceso. El secret debe almacenarse como variable de entorno (JWT_SECRET). El token debe incluir el email o sub para identificar al usuario.
+### 🔐 Security
+This microservice uses JWT (HS256) to protect access. The secret should be stored as an environment variable (JWT_SECRET). The token must include the email or sub to identify the user.
 
-### 🧰 Tecnologías usadas
+### 🧰 Technologies Used
 
 🐍 Python 3.11
 
@@ -83,5 +82,7 @@ Este microservicio usa JWT (HS256) para proteger el acceso. El secret debe almac
 
 🔒 JWT
 
-### 👨‍💻 Autor
-Proyecto desarrollado por el equipo de Programación Distribuida – Universidad Central del Ecuador.
+### 🧑‍💻 Author
+Developed by: Duvard Cisneros
+
+Project: GreenCommerce – Distributed Programming, UCE

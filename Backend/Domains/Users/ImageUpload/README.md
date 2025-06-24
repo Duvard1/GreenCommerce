@@ -1,32 +1,31 @@
-# 🖼️ Image Upload Service
+# 🖼️ Image Upload Microservice - GreenCommerce
 
-Microservicio para subir imágenes de usuario a **Amazon S3** y publicar un evento `ImageUploaded` a **Kafka**, cumpliendo una arquitectura **Event-Driven**. Este servicio forma parte del sistema distribuido **GreenCommerce** desarrollado en el marco del curso de Programación Distribuida.
+Microservice for uploading user images to **Amazon S3** and publishing an `ImageUploaded` event to **Kafka**, following an **Event-Driven** architecture. This service is part of the **GreenCommerce** distributed system developed as part of the Distributed Programming course.
 
 ---
 
-## ⚙️ Tecnologías y Herramientas
+## ⚙️ Technologies and Tools
 
 - **Python 3.10**
-- **Flask**: framework web liviano
-- **Boto3**: cliente AWS para subir archivos a S3
-- **confluent-kafka**: cliente Kafka oficial
-- **Kafka + Zookeeper** (por Docker)
-- **Amazon S3** (con credenciales temporales de AWS Academy)
-- **Docker + Docker Compose** (para Kafka local)
+- **Flask**: lightweight web framework
+- **Boto3**: AWS client for uploading files to S3
+- **confluent-kafka**: official Kafka client
+- **Kafka + Zookeeper** (via Docker)
+- **Amazon S3** (with temporary AWS Academy credentials)
+- **Docker + Docker Compose** (for local Kafka)
 
 ---
 
+## 🔧 Installation
 
-## 🔧 Instalación
-
-### 1. Clona el repositorio
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/tu_usuario/image-upload-service.git
+git clone https://github.com/your_user/image-upload-service.git
 cd image-upload-service
 ```
 
-### 2. Crea entorno virtual
+### 2. Create a virtual environment
 
 ```bash
 python -m venv venv
@@ -34,7 +33,7 @@ source venv/bin/activate    # Linux/Mac
 venv\Scripts\activate       # Windows
 ```
 
-### 3. Instala dependencias
+### 3. Install dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -42,48 +41,46 @@ pip install -r requirements.txt
 
 ---
 
-## ☁️ Configuración AWS
-Este microservicio requiere credenciales temporales de AWS Academy Learner Lab. Cópialas desde la sección "AWS Details" al iniciar el lab y colócalas en tu archivo .env:
+## ☁️  AWS Configuration
+This microservice requires temporary AWS Academy Learner Lab credentials. Copy them from the "AWS Details" section when starting the lab and place them in your `.env` file:
 
 ```bash
 AWS_ACCESS_KEY_ID=...
 AWS_SECRET_ACCESS_KEY=...
 AWS_SESSION_TOKEN=...
-AWS_REGION=us-east-1
+AWS_REGION=us-east-..
 S3_BUCKET_NAME=lightbuild-user-images
 KAFKA_BROKER=localhost:9092
 KAFKA_TOPIC=user.image.uploaded
 ```
 
 ---
-## 🐳 Levantar Kafka con Docker
-
-Corre Kafka y Zookeeper con el docker-compose
+## 🐳 Running Kafka with Docker
+Start Kafka and Zookeeper with the docker-compose command:
 
 ```bash
 docker-compose up --build -d
 
 ```
 
-### 🔊 Creación del Topic en Kafka
+### 🔊 Creating the Topic in Kafka
+This microservice publishes events to the user.image.uploaded topic. You must ensure that the topic exists in Kafka before testing.
 
-Este microservicio publica eventos al topic user.image.uploaded. Debes asegurarte de que el topic exista en Kafka antes de hacer pruebas.
-
-✅ Paso 1: Verifica que Kafka esté corriendo
+✅ Step 1: Check that Kafka is running
 
 ```bash
 docker ps
 
 ```
 
-✅ Paso 2: Ingresa al contenedor de Kafka
+✅ Step 2: Enter the Kafka container
 
 ```bash
 docker exec -it <id_contenedor_kafka> bash
 
 ```
 
-✅ Paso 3: Crea el topic
+✅ Step 3: Create the topic
 
 ```bash
 kafka-topics --create \
@@ -95,7 +92,7 @@ kafka-topics --create \
 ```
 
 
-Ejecutar el servidor
+Run the server
 
 ```bash
 python app/main.py
@@ -104,7 +101,7 @@ python app/main.py
 
 
 ---
-## 🧪 Probar con Postman
+## 🧪 Test with Postman
 
 1. Método: POST
 
@@ -116,7 +113,7 @@ python app/main.py
 
 - image: archivo de imagen (tipo File)
 
-### ✅ Respuesta esperada
+### ✅ Expected Response
 
 ```bash
 {
@@ -128,21 +125,18 @@ python app/main.py
 
 --- 
 
-## 🧠 Notas y Consideraciones
-Las credenciales de AWS Academy expiran después de unos minutos. Siempre usa las actuales.
+## 🧠 Notes and Considerations
+- AWS Academy credentials expire after a few minutes. Always use the current ones.
 
-El bucket de S3 debe ser creado previamente desde la consola de AWS.
+- The S3 bucket must be created beforehand via the AWS console.
 
-Kafka debe estar corriendo antes de hacer peticiones.
+- Kafka must be running before making requests.
 
-Este microservicio se puede integrar fácilmente con otro que consuma el evento ImageUploaded y actualice una base de datos.
+- This microservice can easily be integrated with another that consumes the `ImageUploaded` event and updates a database.
 
 ---
 
-### 🧑‍💻 Autor
+### 🧑‍💻 Author
+Developed by: Duvard Cisneros
 
-Desarrollado por: Duvard Cisneros
-
-Proyecto: GreenCommerce – Programación 
-
-Distribuida, UCE
+Project: GreenCommerce – Distributed Programming, UCE
