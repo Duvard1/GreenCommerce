@@ -1,0 +1,40 @@
+name: Deploy ListUser to AWS EC2
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Copy ListUser files to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_USERS_HOST }}
+          username: ${{ secrets.EC2_USERS_USER }}
+          key: ${{ secrets.EC2_USERS_KEY }}
+          source: |
+            Backend/Domains/Users/ListUser
+          target: /home/ubuntu/GreenCommerce/Users
+          port: 22
+          overwrite: true
+          rm: true
+
+      - name: Deploy ListUser with Docker
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_USERS_HOST }}
+          username: ${{ secrets.EC2_USERS_USER }}
+          key: ${{ secrets.EC2_USERS_KEY }}
+          script: |
+            cd /home/ubuntu/GreenCommerce/Users/Backend/Domains/Users/ListUser
+            sudo docker build -t list-user-service .
+            sudo docker stop list-user-service || true
+            sudo docker rm list-user-service || true
+            sudo docker run -d -p 8081:8081 --env-file .env --name list-user-service list-user-service

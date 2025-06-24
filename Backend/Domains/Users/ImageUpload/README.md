@@ -61,14 +61,7 @@ KAFKA_TOPIC=user.image.uploaded
 Corre Kafka y Zookeeper con el docker-compose
 
 ```bash
-docker-compose up -d
-
-```
-
-Ejecutar el servidor
-
-```bash
-python app/main.py
+docker-compose up --build -d
 
 ```
 
@@ -100,6 +93,15 @@ kafka-topics --create \
   --replication-factor 1
 
 ```
+
+
+Ejecutar el servidor
+
+```bash
+python app/main.py
+
+```
+
 
 ---
 ## 🧪 Probar con Postman
