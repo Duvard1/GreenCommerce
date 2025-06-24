@@ -4,6 +4,7 @@ from app.auth import verify_token
 from app.models import UserResponse
 from fastapi.middleware.cors import CORSMiddleware
 
+# This file is part of the Open Food Facts project.
 app = FastAPI()
 
 app.add_middleware(
