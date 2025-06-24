@@ -25,7 +25,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    fetch('http://localhost:8081/user/info', {
+    fetch('http://3.216.196.163:8081/user/info', {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())

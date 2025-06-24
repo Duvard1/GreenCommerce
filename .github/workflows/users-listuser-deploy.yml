@@ -43,9 +43,6 @@ jobs:
             echo "DB_PASSWORD=${{ secrets.LISTUSER_DB_PASSWORD }}" >> .env
             echo "JWT_SECRET=${{ secrets.LISTUSER_JWT_SECRET }}" >> .env
 
-            # Verificar que el .env se creó correctamente
-            echo "--- CONTENIDO DEL .env ---"
-            cat .env
 
             # Validar que .env no esté vacío
             if [ ! -s .env ]; then
