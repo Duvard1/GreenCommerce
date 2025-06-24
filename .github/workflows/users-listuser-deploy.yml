@@ -35,7 +35,10 @@ jobs:
           script: |
             cd /home/ubuntu/GreenCommerce/Backend/Domains/Users/ListUser
             ls -la /home/ubuntu/GreenCommerce/Backend/Domains/Users/ListUser
-            echo "${{ secrets.LISTUSER_ENV_FILE }}" > .env
+            cat << EOF > .env
+            ${{ secrets.LISTUSER_ENV_FILE }}
+            EOF
+            cat .env
             sudo docker build -t list-user-service .
             sudo docker stop list-user-service || true
             sudo docker rm list-user-service || true
