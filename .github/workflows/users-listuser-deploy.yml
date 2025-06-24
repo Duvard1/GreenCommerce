@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - develop
-
+    paths:
+      - 'Backend/Domains/Users/ListUser/**'
 jobs:
   deploy:
     runs-on: ubuntu-latest
