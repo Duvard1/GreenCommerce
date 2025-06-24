@@ -3,7 +3,6 @@ import os
 from fastapi import HTTPException, Header
 from jwt import DecodeError, ExpiredSignatureError
 
-// Cargar la clave secreta del entorno
 JWT_SECRET = os.getenv("JWT_SECRET")
 
 def verify_token(auth_header: str):
