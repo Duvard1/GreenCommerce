@@ -34,12 +34,25 @@ jobs:
           key: ${{ secrets.EC2_USERS_KEY }}
           script: |
             cd /home/ubuntu/GreenCommerce/Backend/Domains/Users/ListUser
+
+            # Crear el archivo .env de forma explícita
             echo "DB_HOST=${{ secrets.LISTUSER_DB_HOST }}" > .env
             echo "DB_PORT=${{ secrets.LISTUSER_DB_PORT }}" >> .env
             echo "DB_NAME=${{ secrets.LISTUSER_DB_NAME }}" >> .env
             echo "DB_USER=${{ secrets.LISTUSER_DB_USER }}" >> .env
             echo "DB_PASSWORD=${{ secrets.LISTUSER_DB_PASSWORD }}" >> .env
             echo "JWT_SECRET=${{ secrets.LISTUSER_JWT_SECRET }}" >> .env
+
+            # Verificar que el .env se creó correctamente
+            echo "--- CONTENIDO DEL .env ---"
+            cat .env
+
+            # Validar que .env no esté vacío
+            if [ ! -s .env ]; then
+              echo "ERROR: El archivo .env no fue creado correctamente o está vacío"
+              exit 1
+            fi
+
             sudo docker build -t list-user-service .
             sudo docker stop list-user-service || true
             sudo docker rm list-user-service || true
