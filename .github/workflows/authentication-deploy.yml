@@ -35,21 +35,31 @@ jobs:
           username: ${{ secrets.EC2_AUTH_USER }}
           key: ${{ secrets.EC2_AUTH_KEY }}
           script: |
-            cd /home/ubuntu/GreenCommerce/Auth/Backend/Domains/Authentication/Login/app/login-service/src/main/resources
+            APP_PATH="/home/ubuntu/GreenCommerce/Auth/Backend/Domains/Authentication/Login/app/login-service/src/main/resources"
+            mkdir -p $APP_PATH
 
-            echo "spring.application.name=LoginService" > application.properties
-            echo "spring.datasource.url=${{ secrets.APP_DB_URL }}" >> application.properties
-            echo "spring.datasource.username=${{ secrets.DB_USER }}" >> application.properties
-            echo "spring.datasource.password=${{ secrets.DB_PASSWORD }}" >> application.properties
-            echo "spring.datasource.initialization-mode=always" >> application.properties
-            echo "spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver" >> application.properties
-            echo "spring.jpa.defer-datasource-initialization=true" >> application.properties
-            echo "spring.jpa.hibernate.ddl-auto=update" >> application.properties
-            echo "spring.jpa.show-sql=true" >> application.properties
-            echo "spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect" >> application.properties
-            echo "server.port=8082" >> application.properties
-            echo "jwt.secret=${{ secrets.JWT_SECRET }}" >> application.properties
+            cat <<EOF > $APP_PATH/application.properties
+            spring.application.name=LoginService
 
+            # Configuración de la base de datos (MySQL)
+            spring.datasource.url=${{ secrets.DB_URL }}
+            spring.datasource.username=${{ secrets.DB_USER }}
+            spring.datasource.password=${{ secrets.DB_PASS }}
+            spring.datasource.initialization-mode=always
+            spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+            spring.jpa.defer-datasource-initialization=true
+
+            # Hibernate settings
+            spring.jpa.hibernate.ddl-auto=update
+            spring.jpa.show-sql=true
+            spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+
+            # Puerto de la aplicación
+            server.port=8082
+
+            # Configuración de seguridad JWT
+            jwt.secret=${{ secrets.JWT_SECRET }}
+            EOF
 
             cd /home/ubuntu/GreenCommerce/Auth/Backend/Domains/Authentication
             sudo docker-compose down --rmi all --volumes --remove-orphans || true
