@@ -34,6 +34,8 @@ jobs:
           key: ${{ secrets.EC2_USERS_KEY }}
           script: |
             cd /home/ubuntu/GreenCommerce/Backend/Domains/Users/ListUser
+            ls -la /home/ubuntu/GreenCommerce/Backend/Domains/Users/ListUser
+            echo "${{ secrets.LISTUSER_ENV_FILE }}" > .env
             sudo docker build -t list-user-service .
             sudo docker stop list-user-service || true
             sudo docker rm list-user-service || true
