@@ -17,11 +17,11 @@ jobs:
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_USERS_HOST }}
-          username: ${{ secrets.EC2_USERS_USER }}
+          username: ${{ secrets.EC2_AUTH_USER }}
           key: ${{ secrets.EC2_USERS_KEY }}
           source: |
             Backend/Domains/Users/ListUser
-          target: /home/ubuntu/GreenCommerce/Users
+          target: /home/ubuntu/GreenCommerce
           port: 22
           overwrite: true
           rm: true
@@ -30,10 +30,10 @@ jobs:
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.EC2_USERS_HOST }}
-          username: ${{ secrets.EC2_USERS_USER }}
+          username: ${{ secrets.EC2_AUTH_USER }}
           key: ${{ secrets.EC2_USERS_KEY }}
           script: |
-            cd /home/ubuntu/GreenCommerce/Users/Backend/Domains/Users/ListUser
+            cd /home/ubuntu/GreenCommerce/Backend/Domains/Users/ListUser
             sudo docker build -t list-user-service .
             sudo docker stop list-user-service || true
             sudo docker rm list-user-service || true
