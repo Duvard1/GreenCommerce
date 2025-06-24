@@ -64,7 +64,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 setToastMessage('Inicio de sesión exitoso');
 setShowToast(true);
 
-// Redirige luego de 5 segundos
+// Redirige luego de 5 segundos, comentario para deploy
 setTimeout(() => {
   setShowToast(false);
   window.location.href = '/';
