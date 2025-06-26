@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class RegisterController {
     @Autowired
     private RegisterService registerService;
-
+    // Endpoint to handle user registration
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
         registerService.register(user);
