@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class RegisterController {
     @Autowired
-    // RegisterService is a service that handles user registration logic
     private RegisterService registerService;
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
