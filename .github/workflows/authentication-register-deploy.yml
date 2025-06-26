@@ -59,6 +59,6 @@ jobs:
           key: ${{ secrets.EC2_AUTH_KEY }}
           script: |
             cd /home/ubuntu/GreenCommerce/Backend/Domains/Authentication/Register/app/register-service/target
-            sudo pkill -f 'java -jar register-service-0.0.1-SNAPSHOT.jar' || true
-            sudo java -jar register-service-0.0.1-SNAPSHOT.jar > /home/ubuntu/app.log 2>&1 &
-          timeout: 30m
+            pkill -f 'java -jar register-service-0.0.1-SNAPSHOT.jar' || true
+            java -jar register-service-0.0.1-SNAPSHOT.jar > /home/ubuntu/app.log 2>&1 &
+          timeout: 3m
