@@ -1,0 +1,101 @@
+name: Deploy Authentication Login to AWS EC2
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - 'Backend/Domains/Authentication/Login/**'
+
+jobs:
+  deploy-auth-login:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Build the JAR
+        run: |
+          cd Backend/Domains/Authentication/Login/app/login-service
+          mvn clean package -DskipTests
+
+      - name: Copy JAR to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_AUTH_HOST }}
+          username: ${{ secrets.EC2_AUTH_USER }}
+          key: ${{ secrets.EC2_AUTH_KEY }}
+          port: 22
+          source: Backend/Domains/Authentication/Login/app/login-service/target/login-service-0.0.1-SNAPSHOT.jar
+          target: /home/ubuntu/GreenCommerce/
+
+      - name: Restart login-service on EC2
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_AUTH_HOST }}
+          username: ${{ secrets.EC2_AUTH_USER }}
+          key: ${{ secrets.EC2_AUTH_KEY }}
+          port: 22
+          script_stop: false
+          command_timeout: 2m
+          script: |
+            cd /home/ubuntu/GreenCommerce/Backend/Domains/Authentication/Login/app/login-service/target
+
+            cat > deploy_service.sh << 'EOF'
+            #!/bin/bash
+
+            echo "Checking for existing processes..."
+            EXISTING_PIDS=$(pgrep -f "login-service-0.0.1-SNAPSHOT.jar" || true)
+            if [ -n "$EXISTING_PIDS" ]; then
+              echo "Found processes: $EXISTING_PIDS"
+              for PID in $EXISTING_PIDS; do
+                echo "Killing process $PID..."
+                kill $PID 2>/dev/null || true
+              done
+              sleep 3
+
+              REMAINING_PIDS=$(pgrep -f "login-service-0.0.1-SNAPSHOT.jar" || true)
+              if [ -n "$REMAINING_PIDS" ]; then
+                echo "Force killing remaining processes: $REMAINING_PIDS"
+                for PID in $REMAINING_PIDS; do
+                  kill -9 $PID 2>/dev/null || true
+                done
+                sleep 2
+              fi
+            else
+              echo "No existing processes found"
+            fi
+
+            mkdir -p logs
+
+            echo "Starting login-service..."
+            nohup java -jar login-service-0.0.1-SNAPSHOT.jar > logs/app.log 2>&1 &
+            SERVICE_PID=$!
+
+            echo "Service started with PID: $SERVICE_PID"
+
+            sleep 5
+            if kill -0 $SERVICE_PID 2>/dev/null; then
+              echo "Service is running successfully with PID: $SERVICE_PID"
+              echo "Checking application logs:"
+              sleep 2
+              tail -n 5 logs/app.log 2>/dev/null || echo "No logs yet"
+              echo "$SERVICE_PID" > service.pid
+            else
+              echo "Service failed to start or crashed"
+              echo "Application logs:"
+              cat logs/app.log 2>/dev/null || echo "No log file found"
+              exit 1
+            fi
+
+            echo "Deployment completed successfully!"
+            EOF
+
+            chmod +x deploy_service.sh
+            ./deploy_service.sh
