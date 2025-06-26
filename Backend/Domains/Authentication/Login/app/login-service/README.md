@@ -23,10 +23,10 @@ The structure follows a **layered architecture**, which is a classic and widely 
 - **Presentation Layer:** Controllers, which manage user requests.
 - **Business Logic Layer:** Services, which manage the application's internal logic.
 - **Persistence Layer:** Repositories, which handle interaction with the database.
-- **Security Layer:** which implements authentication and authorization measures.
-- **Model Layer:** where domain entities are defined.
-- **Data Transfer Protocol:** to pass data between layers.
-- **util:** Maneja la creación y validación de JSON Web Tokens (JWT)
+- **Security Layer:** Which implements authentication and authorization measures.
+- **Model Layer:** Where domain entities are defined.
+- **Data Transfer Protocol:** To pass data between layers.
+- **Util:** Handles the creation and validation of JSON Web Tokens (JWT)
 
 ---
 

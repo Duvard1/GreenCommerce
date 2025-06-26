@@ -71,6 +71,8 @@ The folder structure follows layered architectural principles, facilitating the 
     └── README.md
 ```
 
+---
+
 ## ⚙️ Database Configuration
 
 This microservice connects to a **MySQL** database hosted on **AWS RDS**. The configuration is done using the following credentials:
@@ -99,23 +101,22 @@ docker-compose up --build
 
 📍 The service will be available at: http://localhost:8081/auth/register
 
-### Request Example
+### 🧪 Request Example
 
 ```json
 {
-  "name": "Juan",
-  "lastName": "Pérez",
-  "dayBirth": 12,
-  "monthBirth": 5,
-  "yearBirth": 1995,
+  "name": "admin",
+  "lastName": "admin",
+  "dayBirth": 1,
+  "monthBirth": 1,
+  "yearBirth": 2001,
   "gender": "Hombre",
   "phoneNumber": "0999999999",
-  "email": "juan.perez@email.com",
-  "password": "secreta123"
+  "email": "admin@email.com",
+  "password": "admin"
 }
 ```
 
----
 
 ### ✅ Example of successful response
 

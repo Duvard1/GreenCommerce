@@ -1,4 +1,4 @@
-name: Deploy Authentication to AWS EC2
+name: Deploy Authentication Register to AWS EC2
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4 # Clonar repo en la máquina de Actions.
 
       - name: Set up JDK 17
         uses: actions/setup-java@v2
@@ -33,7 +33,7 @@ jobs:
           key: ${{ secrets.EC2_AUTH_KEY }}
           port: 22
           source: Backend/Domains/Authentication/Register/app/register-service/target/register-service-0.0.1-SNAPSHOT.jar
-          target: /home/ubuntu/GreenCommerce/Backend/Domains/Authentication/Register/app/register-service/target/
+          target: /home/ubuntu/GreenCommerce/
 
       - name: Restart register-service on EC2
         uses: appleboy/ssh-action@v0.1.7
@@ -46,19 +46,7 @@ jobs:
           command_timeout: 2m
           script: |
             cd /home/ubuntu/GreenCommerce/Backend/Domains/Authentication/Register/app/register-service/target
-            
-            echo "Current directory: $(pwd)"
-            echo "Listing files:"
-            ls -la
-            
-            # Ensure the JAR file exists
-            if [ ! -f "register-service-0.0.1-SNAPSHOT.jar" ]; then
-              echo "Error: JAR file not found!"
-              exit 1
-            fi
-            
-            echo "JAR file found, proceeding with deployment..."
-            
+
             # Create a deployment script to run in background
             cat > deploy_service.sh << 'EOF'
             #!/bin/bash
@@ -100,13 +88,13 @@ jobs:
             # Wait and verify the service is running
             sleep 5
             if kill -0 $SERVICE_PID 2>/dev/null; then
-              echo "✅ Service is running successfully with PID: $SERVICE_PID"
+              echo "Service is running successfully with PID: $SERVICE_PID"
               echo "Checking application logs:"
               sleep 2
               tail -n 5 logs/app.log 2>/dev/null || echo "No logs yet"
               echo "$SERVICE_PID" > service.pid
             else
-              echo "❌ Service failed to start or crashed"
+              echo "Service failed to start or crashed"
               echo "Application logs:"
               cat logs/app.log 2>/dev/null || echo "No log file found"
               exit 1
