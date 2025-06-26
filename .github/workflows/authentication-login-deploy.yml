@@ -23,6 +23,7 @@ jobs:
 
       - name: Inject application.properties with secrets
         run: |
+          mkdir -p Backend/Domains/Authentication/Login/app/login-service/src/main/resources
           cat <<EOF > Backend/Domains/Authentication/Login/app/login-service/src/main/resources/application.properties
           spring.application.name=LoginService
 
