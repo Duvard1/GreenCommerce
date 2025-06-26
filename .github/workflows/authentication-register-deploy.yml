@@ -32,7 +32,6 @@ jobs:
           username: ${{ secrets.EC2_AUTH_USER }}
           key: ${{ secrets.EC2_AUTH_KEY }}
           port: 22
-          # Copy directly into the remote target directory
           source: Backend/Domains/Authentication/Register/app/register-service/target/register-service-0.0.1-SNAPSHOT.jar
           target: /home/ubuntu/GreenCommerce/Backend/Domains/Authentication/Register/app/register-service/target/
 
@@ -43,11 +42,46 @@ jobs:
           username: ${{ secrets.EC2_AUTH_USER }}
           key: ${{ secrets.EC2_AUTH_KEY }}
           port: 22
-          script_stop: false        # don’t abort on non-zero exit
+          script_stop: false
+          command_timeout: 2m
           script: |
             cd /home/ubuntu/GreenCommerce/Backend/Domains/Authentication/Register/app/register-service/target
-            # kill any running instance
-            pkill -f 'java -jar register-service-0.0.1-SNAPSHOT.jar' || true
-            # start in background; redirect logs to app.log
-            nohup java -jar register-service-0.0.1-SNAPSHOT.jar > app.log 2>&1 &
-
+            
+            # Ensure the JAR file exists and is executable
+            if [ ! -f "register-service-0.0.1-SNAPSHOT.jar" ]; then
+              echo "Error: JAR file not found!"
+              exit 1
+            fi
+            
+            # Kill any running instances (more robust approach)
+            sudo pkill -f 'register-service-0.0.1-SNAPSHOT.jar' || true
+            sleep 2
+            
+            # Verify no processes are still running
+            if pgrep -f 'register-service-0.0.1-SNAPSHOT.jar' > /dev/null; then
+              echo "Force killing remaining processes..."
+              sudo pkill -9 -f 'register-service-0.0.1-SNAPSHOT.jar' || true
+              sleep 2
+            fi
+            
+            # Create logs directory if it doesn't exist
+            mkdir -p logs
+            
+            # Start the service with better process isolation
+            echo "Starting register-service..."
+            nohup java -jar register-service-0.0.1-SNAPSHOT.jar > logs/app.log 2>&1 < /dev/null &
+            
+            # Get the PID and verify it's running
+            SERVICE_PID=$!
+            echo "Started with PID: $SERVICE_PID"
+            
+            # Wait a moment and check if the process is still running
+            sleep 3
+            if ps -p $SERVICE_PID > /dev/null; then
+              echo "Service started successfully with PID: $SERVICE_PID"
+            else
+              echo "Error: Service failed to start"
+              echo "Last few lines of log:"
+              tail -n 10 logs/app.log || echo "No log file found"
+              exit 1
+            fi
