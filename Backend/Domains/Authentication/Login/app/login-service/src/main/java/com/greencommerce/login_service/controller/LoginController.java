@@ -17,7 +17,6 @@ public class LoginController {
 
     @Autowired
     private LoginService loginService;
-    // Endpoint para manejar el inicio de sesión
 
     @PostMapping("/login")
 public ResponseEntity<?> login(@RequestBody LoginRequest request) {
