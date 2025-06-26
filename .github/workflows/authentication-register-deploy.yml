@@ -45,9 +45,6 @@ jobs:
           script_stop: false
           command_timeout: 2m
           script: |
-            #!/bin/bash
-            set -e
-            
             cd /home/ubuntu/GreenCommerce/Backend/Domains/Authentication/Register/app/register-service/target
             
             echo "Current directory: $(pwd)"
@@ -64,14 +61,19 @@ jobs:
             
             # Kill any running instances
             echo "Stopping existing processes..."
-            pkill -f 'register-service-0.0.1-SNAPSHOT.jar' || true
-            sleep 3
-            
-            # Force kill if still running
             if pgrep -f 'register-service-0.0.1-SNAPSHOT.jar' > /dev/null; then
-              echo "Force killing remaining processes..."
-              pkill -9 -f 'register-service-0.0.1-SNAPSHOT.jar' || true
-              sleep 2
+              echo "Found running processes, stopping them..."
+              pkill -f 'register-service-0.0.1-SNAPSHOT.jar'
+              sleep 3
+              
+              # Force kill if still running
+              if pgrep -f 'register-service-0.0.1-SNAPSHOT.jar' > /dev/null; then
+                echo "Force killing remaining processes..."
+                pkill -9 -f 'register-service-0.0.1-SNAPSHOT.jar'
+                sleep 2
+              fi
+            else
+              echo "No existing processes found"
             fi
             
             # Create logs directory
@@ -90,10 +92,12 @@ jobs:
               echo "✅ Service is running successfully with PID: $SERVICE_PID"
               echo "Checking application logs:"
               sleep 2
-              tail -n 5 logs/app.log || echo "No logs yet"
+              tail -n 5 logs/app.log 2>/dev/null || echo "No logs yet"
             else
               echo "❌ Service failed to start or crashed"
               echo "Application logs:"
-              cat logs/app.log || echo "No log file found"
+              cat logs/app.log 2>/dev/null || echo "No log file found"
               exit 1
             fi
+            
+            echo "Deployment completed successfully!"
