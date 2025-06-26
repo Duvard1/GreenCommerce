@@ -37,7 +37,6 @@ jobs:
       - name: Verify JAR files existence
         run: |
           ls Backend/Domains/Authentication/Register/app/register-service/target
-          ls Backend/Domains/Authentication/Login/app/login-service/target
 
       - name: Copy the JAR to EC2
         uses: appleboy/scp-action@v0.1.7
@@ -47,7 +46,6 @@ jobs:
           key: ${{ secrets.EC2_AUTH_KEY }}
           source: |
             Backend/Domains/Authentication/Register/app/register-service/target/register-service-0.0.1-SNAPSHOT.jar
-            Backend/Domains/Authentication/Login/app/login-service/target/login-service-0.0.1-SNAPSHOT.jar
           target: /home/ubuntu/GreenCommerce/
           port: 22
           overwrite: true
@@ -63,5 +61,3 @@ jobs:
             cd /home/ubuntu/GreenCommerce/Backend/Domains/Authentication/Register/app/register-service/target
             sudo pkill -f 'java -jar register-service-0.0.1-SNAPSHOT.jar' || true
             sudo java -jar register-service-0.0.1-SNAPSHOT.jar
-            cd /home/ubuntu/GreenCommerce/Backend/Domains/Authentication/Login/app/login-service/target
-            sudo java -jar login-service-0.0.1-SNAPSHOT.jar
