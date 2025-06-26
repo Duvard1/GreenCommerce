@@ -45,43 +45,55 @@ jobs:
           script_stop: false
           command_timeout: 2m
           script: |
+            #!/bin/bash
+            set -e
+            
             cd /home/ubuntu/GreenCommerce/Backend/Domains/Authentication/Register/app/register-service/target
             
-            # Ensure the JAR file exists and is executable
+            echo "Current directory: $(pwd)"
+            echo "Listing files:"
+            ls -la
+            
+            # Ensure the JAR file exists
             if [ ! -f "register-service-0.0.1-SNAPSHOT.jar" ]; then
               echo "Error: JAR file not found!"
               exit 1
             fi
             
-            # Kill any running instances (more robust approach)
-            sudo pkill -f 'register-service-0.0.1-SNAPSHOT.jar' || true
-            sleep 2
+            echo "JAR file found, proceeding with deployment..."
             
-            # Verify no processes are still running
+            # Kill any running instances
+            echo "Stopping existing processes..."
+            pkill -f 'register-service-0.0.1-SNAPSHOT.jar' || true
+            sleep 3
+            
+            # Force kill if still running
             if pgrep -f 'register-service-0.0.1-SNAPSHOT.jar' > /dev/null; then
               echo "Force killing remaining processes..."
-              sudo pkill -9 -f 'register-service-0.0.1-SNAPSHOT.jar' || true
+              pkill -9 -f 'register-service-0.0.1-SNAPSHOT.jar' || true
               sleep 2
             fi
             
-            # Create logs directory if it doesn't exist
+            # Create logs directory
             mkdir -p logs
             
-            # Start the service with better process isolation
+            # Start the service
             echo "Starting register-service..."
-            nohup java -jar register-service-0.0.1-SNAPSHOT.jar > logs/app.log 2>&1 < /dev/null &
-            
-            # Get the PID and verify it's running
+            nohup java -jar register-service-0.0.1-SNAPSHOT.jar > logs/app.log 2>&1 &
             SERVICE_PID=$!
-            echo "Started with PID: $SERVICE_PID"
             
-            # Wait a moment and check if the process is still running
-            sleep 3
-            if ps -p $SERVICE_PID > /dev/null; then
-              echo "Service started successfully with PID: $SERVICE_PID"
+            echo "Service started with PID: $SERVICE_PID"
+            
+            # Wait and verify the service is running
+            sleep 5
+            if kill -0 $SERVICE_PID 2>/dev/null; then
+              echo "✅ Service is running successfully with PID: $SERVICE_PID"
+              echo "Checking application logs:"
+              sleep 2
+              tail -n 5 logs/app.log || echo "No logs yet"
             else
-              echo "Error: Service failed to start"
-              echo "Last few lines of log:"
-              tail -n 10 logs/app.log || echo "No log file found"
+              echo "❌ Service failed to start or crashed"
+              echo "Application logs:"
+              cat logs/app.log || echo "No log file found"
               exit 1
             fi
