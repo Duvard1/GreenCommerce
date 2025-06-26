@@ -34,6 +34,11 @@ jobs:
           cd Backend/Domains/Authentication/Register/app/register-service
           mvn clean package -DskipTests
 
+      - name: Verify JAR files existence
+        run: |
+          ls Backend/Domains/Authentication/Register/app/register-service/target
+          ls Backend/Domains/Authentication/Login/app/login-service/target
+
       - name: Copy the JAR to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -43,7 +48,7 @@ jobs:
           source: |
             Backend/Domains/Authentication/Register/app/register-service/target/register-service-0.0.1-SNAPSHOT.jar
             Backend/Domains/Authentication/Login/app/login-service/target/login-service-0.0.1-SNAPSHOT.jar
-            target: /home/ubuntu/GreenCommerce/
+          target: /home/ubuntu/GreenCommerce/
           port: 22
           overwrite: true
 

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auth")
 public class RegisterController {
+    // Injecting the RegisterService to handle registration logic
     @Autowired
     private RegisterService registerService;
     // Endpoint to handle user registration
