@@ -42,7 +42,8 @@ jobs:
           key: ${{ secrets.EC2_AUTH_KEY }}
           source: |
             Backend/Domains/Authentication/Register/app/register-service/target/register-service-0.0.1-SNAPSHOT.jar
-          target: /home/ubuntu/GreenCommerce/Auth/Backend/Domains/Authentication/Register/app/register-service/
+            Backend/Domains/Authentication/Login/app/login-service/target/login-service-0.0.1-SNAPSHOT.jar
+            target: /home/ubuntu/GreenCommerce/
           port: 22
           overwrite: true
 
@@ -54,6 +55,8 @@ jobs:
           username: ${{ secrets.EC2_AUTH_USER }}
           key: ${{ secrets.EC2_AUTH_KEY }}
           script: |
-            cd /home/ubuntu/GreenCommerce/Auth/Backend/Domains/Authentication/Register/app/register-service
-            sudo docker-compose down || true
+            cd /home/ubuntu/GreenCommerce/Backend/Domains/Authentication/Register/app/register-service/target
+            sudo pkill -f 'java -jar register-service-0.0.1-SNAPSHOT.jar' || true
             sudo java -jar register-service-0.0.1-SNAPSHOT.jar
+            cd /home/ubuntu/GreenCommerce/Backend/Domains/Authentication/Login/app/login-service/target
+            sudo java -jar login-service-0.0.1-SNAPSHOT.jar
