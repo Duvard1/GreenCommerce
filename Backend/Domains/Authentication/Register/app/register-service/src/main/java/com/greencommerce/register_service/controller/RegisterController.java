@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auth")
 public class RegisterController {
-
-    // RegisterController handles user registration requests
     @Autowired
     private RegisterService registerService;
 
