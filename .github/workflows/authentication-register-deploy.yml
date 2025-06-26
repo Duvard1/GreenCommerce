@@ -60,5 +60,5 @@ jobs:
           script: |
             cd /home/ubuntu/GreenCommerce/Backend/Domains/Authentication/Register/app/register-service/target
             pkill -f 'java -jar register-service-0.0.1-SNAPSHOT.jar' || true
-            java -jar register-service-0.0.1-SNAPSHOT.jar > /home/ubuntu/app.log 2>&1 &
-          timeout: 3m
+            nohup java -jar register-service-0.0.1-SNAPSHOT.jar > /home/ubuntu/app.log 2>&1 &
+          timeout: 10m
