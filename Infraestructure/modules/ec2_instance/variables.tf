@@ -1,0 +1,9 @@
+variable "ami" {}
+variable "instance_type" {}
+variable "subnet_id" {}
+variable "security_group_id" {}
+variable "key_name" {}
+variable "user_data_path" {}
+variable "eip_allocation_id" {}
+variable "name" {}
+variable "domain" {}

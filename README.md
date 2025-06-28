@@ -22,6 +22,193 @@ GreenCommerce is a distributed e-commerce platform designed to promote and sell 
 
 ---
 
+## Folder Structure
+
+```
+└── 📁GreenCommerce
+    └── 📁.github
+        └── 📁workflows
+            ├── authentication-login-deploy.yml
+            ├── authentication-register-deploy.yml
+            ├── users-imageupload-deploy.yml
+            ├── users-listuser-deploy.yml
+    └── 📁Backend
+        └── 📁Domains
+            └── 📁Authentication
+                └── 📁Login
+                    └── 📁app
+                        └── 📁login-service
+                            └── 📁.mvn
+                            └── 📁src
+                                └── 📁main
+                                    └── 📁java
+                                        └── 📁com
+                                            └── 📁greencommerce
+                                                └── 📁login_service
+                                                    └── 📁controller
+                                                        ├── LoginController.java
+                                                    └── 📁dto
+                                                        ├── LoginRequest.java
+                                                    └── 📁model
+                                                        ├── User.java
+                                                    └── 📁repository
+                                                        ├── UserRepository.java
+                                                    └── 📁security
+                                                        ├── SecurityConfig.java
+                                                    └── 📁service
+                                                        ├── LoginService.java
+                                                    └── 📁util
+                                                        ├── JwtUtil.java
+                                                    ├── LoginServiceApplication.java
+                                    └── 📁resources
+                                        └── 📁static
+                                        └── 📁templates
+                                        ├── application.properties
+                                └── 📁test
+                            └── 📁target
+                                ├── login-service-0.0.1-SNAPSHOT.jar
+                                ├── login-service-0.0.1-SNAPSHOT.jar.original
+                            ├── .gitattributes
+                            ├── .gitignore
+                            ├── Dockerfile
+                            ├── HELP.md
+                            ├── mvnw
+                            ├── mvnw.cmd
+                            ├── pom.xml
+                            ├── README.md
+                └── 📁Register
+                    └── 📁app
+                        └── 📁register-service
+                            └── 📁.mvn
+                            └── 📁src
+                                └── 📁main
+                                    └── 📁java
+                                        └── 📁com
+                                            └── 📁greencommerce
+                                                └── 📁register_service
+                                                    └── 📁controller
+                                                        ├── RegisterController.java
+                                                    └── 📁model
+                                                        ├── User.java
+                                                    └── 📁repository
+                                                        ├── UserRepository.java
+                                                    └── 📁security
+                                                        ├── PasswordEncoderConfig.java
+                                                        ├── SecurityConfig.java
+                                                    └── 📁service
+                                                        ├── RegisterService.java
+                                                    ├── RegisterServiceApplication.java
+                                    └── 📁resources
+                                        └── 📁static
+                                        └── 📁templates
+                                        ├── application.properties
+                                └── 📁test
+                            └── 📁target
+                                ├── register-service-0.0.1-SNAPSHOT.jar
+                                ├── register-service-0.0.1-SNAPSHOT.jar.original
+                            ├── .gitattributes
+                            ├── .gitignore
+                            ├── Dockerfile
+                            ├── HELP.md
+                            ├── mvnw
+                            ├── mvnw.cmd
+                            ├── pom.xml
+                            ├── README.md
+                ├── docker-compose.yml
+                ├── greencommerce_users_db.sql
+                ├── README.md
+            └── 📁Products
+                └── 📁CreateProduct
+                    └── 📁app
+                    ├── Dockerfile
+                    ├── README.md
+                └── 📁DeleteProduct
+                    ├── README.md
+                └── 📁GetProductById
+                    ├── README.md
+                └── 📁ListFeaturedProduct
+                    ├── README.md
+                └── 📁ListProduct
+                    ├── README.md                
+                └── 📁ListProductByCategory
+                    ├── README.md
+                └── 📁UpdateProduct
+                    ├── README.md
+                ├── docker-compose.yml
+                ├── README.md
+            └── 📁Users
+                └── 📁DeleteUser
+                    ├── README.md
+                └── 📁ImageUpload
+                    └── 📁app
+                        ├── __init__.py
+                        ├── config.py
+                        ├── consumer.py
+                        ├── kafka_producer.py
+                        ├── main.py
+                        ├── s3_uploader.py
+                    ├── .env
+                    ├── .gitignore
+                    ├── credenciales.txt
+                    ├── docker-compose.yml
+                    ├── Dockerfile
+                    ├── README.md
+                    ├── requirements.txt
+                └── 📁ListUser
+                    └── 📁app
+                        ├── auth.py
+                        ├── database.py
+                        ├── main.py
+                        ├── models.py
+                    ├── .env
+                    ├── .gitignore
+                    ├── Dockerfile
+                    ├── README.md
+                    ├── requirements.txt
+                └── 📁UpdateUser
+                    ├── README.md
+                ├── README.md
+            ├── README.md
+        ├── README.md
+    └── 📁Frontend
+        └── 📁green-commerce
+            └── 📁public
+                └── 📁category
+                ├── file.svg
+                ├── globe.svg
+                ├── next.svg
+                ├── vercel.svg
+                ├── window.svg
+            └── 📁src
+                └── 📁app
+                    └── 📁login
+                        ├── page.tsx
+                    └── 📁profile
+                        ├── page.tsx
+                    └── 📁register
+                        ├── page.tsx
+                    ├── favicon.ico
+                    ├── globals.css
+                    ├── layout.tsx
+                    ├── page.tsx
+                └── 📁components
+                    ├── Footer.tsx
+                    ├── Header.tsx
+            ├── .gitignore
+            ├── next-env.d.ts
+            ├── next.config.ts
+            ├── package-lock.json
+            ├── package.json
+            ├── postcss.config.mjs
+            ├── README.md
+            ├── tsconfig.json
+        ├── README.md
+    └── 📁Infraestructure    
+    └── README.md
+```
+
+---
+
 ## 🔧 Core Features
 
 1. **JWT Authentication**: Secure user registration, login, and token management.
@@ -85,15 +272,9 @@ As the project grows, additional features and domains will be implemented, inclu
 
 ---
 
-### 🧑‍💻 Author
-
-Developed by: **Your Name**  
-Project: **GreenCommerce** – Distributed Programming, UCE
-
----
-
-
 ## 🧑‍💻 Author
-Developed by: Duvard Cisneros
 
-Project: GreenCommerce – Distributed Programming, UCE
+- **Project:** GreenCommerce
+- **Developed:** Duvard Cisneros
+- **Institution:** Central University of Ecuador - Distributed Programming 
+- **Professor:** Juan Pablo Guevara

@@ -120,10 +120,8 @@ docker-compose up --build
 
 ### ✅ Example of successful response
 
-```json
-{
-  "token": "User registered successfully!"
-}
+```bash
+User registered successfully!
 ```
 
 ---
