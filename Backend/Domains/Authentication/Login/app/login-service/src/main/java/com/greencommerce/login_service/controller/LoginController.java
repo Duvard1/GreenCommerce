@@ -17,6 +17,7 @@ public class LoginController {
 
     @Autowired
     private LoginService loginService;
+    // Constructor injection can also be used
     @PostMapping("/login")
 public ResponseEntity<?> login(@RequestBody LoginRequest request) {
     String token = loginService.login(request);

@@ -58,8 +58,8 @@ jobs:
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_AUTH_HOST }}
-          username: ${{ secrets.EC2_AUTH_USER }}
-          key: ${{ secrets.EC2_AUTH_KEY }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_KEYPAIR }}
           port: 22
           source: Backend/Domains/Authentication/Login/app/login-service/target/login-service-0.0.1-SNAPSHOT.jar
           target: /home/ubuntu/GreenCommerce/
@@ -68,8 +68,8 @@ jobs:
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.EC2_AUTH_HOST }}
-          username: ${{ secrets.EC2_AUTH_USER }}
-          key: ${{ secrets.EC2_AUTH_KEY }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_KEYPAIR }}
           port: 22
           script_stop: false
           command_timeout: 2m
