@@ -69,22 +69,22 @@ terraform apply
     └── vpc.tf
 ```
 
-`vpc.tf`: Defines the virtual private network
-`security_groups.tf`: Traffic rules by domain
-`elastic_ip.tf`: Public IPs associated with the instances
-`modules/ec2_instance/`: Reusable module for creating EC2 instances
-`initial_configuration.sh`: Script that installs Docker and launches microservices
-`variables.tf / terraform.tfvars`: Variables and values ​​defined to parameterize the infrastructure
-`outputs.tf`: Exposes useful information such as public IPs
-`main.tf`: Main Terraform Resource Orchestration
-`providers.tf`: Define the AWS provider and region
+- `vpc.tf`: Defines the virtual private network
+- `security_groups.tf`: Traffic rules by domain
+- `elastic_ip.tf`: Public IPs associated with the instances
+- `modules/ec2_instance/`: Reusable module for creating EC2 instances
+- `initial_configuration.sh`: Script that installs Docker and launches microservices
+- `variables.tf / terraform.tfvars`: Variables and values ​​defined to parameterize the infrastructure
+- `outputs.tf`: Exposes useful information such as public IPs
+- `main.tf`: Main Terraform Resource Orchestration
+- `providers.tf`: Define the AWS provider and region
 
 ---
 
 ## 📥 Importing existing resources
 
 ```bash
-terraform import aws_security_group.rds_manual_sg sg-0a1b5751c14cad654
+terraform import aws_security_group.rds_manual_sg sg-0a1b57...
 ```
 
 ## 💣 Controlled Destruction
