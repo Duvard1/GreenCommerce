@@ -1,4 +1,4 @@
-name: Deploy ListUser to AWS EC2
+name: Deploy ListUser from DockerHub to AWS EC2
 
 on:
   push:
@@ -6,6 +6,7 @@ on:
       - develop
     paths:
       - 'Backend/Domains/Users/ListUser/**'
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -14,44 +15,49 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Copy ListUser files to EC2
-        uses: appleboy/scp-action@v0.1.7
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
         with:
-          host: ${{ secrets.EC2_USERS_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_KEYPAIR }}
-          source: |
-            Backend/Domains/Users/ListUser
-          target: /home/ubuntu/GreenCommerce
-          port: 22
-          overwrite: true
-          rm: true
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Deploy ListUser with Docker
+      - name: Build and Push Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/list-user-service:latest ./Backend/Domains/Users/ListUser
+          docker push ${{ secrets.DOCKER_USERNAME }}/list-user-service:latest
+
+      - name: SSH and Deploy on EC2
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.EC2_USERS_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_KEYPAIR }}
+          port: 22
           script: |
-            cd /home/ubuntu/GreenCommerce/Backend/Domains/Users/ListUser
+            # Detener y eliminar contenedor si existe
+            sudo docker stop list-user-service || true
+            sudo docker rm list-user-service || true
 
-            # Crear el archivo .env de forma explícita
+            # Eliminar imagen antigua
+            sudo docker rmi ${{ secrets.DOCKER_USERNAME }}/list-user-service:latest || true
+
+            # Descargar la imagen actualizada desde Docker Hub
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/list-user-service:latest
+
+            # Crear .env en la misma carpeta desde donde correremos el contenedor
+            cd /home/ubuntu
             echo "DB_HOST=${{ secrets.DB_HOST }}" > .env
             echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
             echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env  
             echo "DB_USER=${{ secrets.DB_USER }}" >> .env
-            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD}}" >> .env
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
             echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
 
-
-            # Validar que .env no esté vacío
+            # Verificar que .env no esté vacío
             if [ ! -s .env ]; then
-              echo "ERROR: El archivo .env no fue creado correctamente o está vacío"
+              echo "ERROR: .env está vacío o no fue creado correctamente"
               exit 1
             fi
 
-            sudo docker build -t list-user-service .
-            sudo docker stop list-user-service || true
-            sudo docker rm list-user-service || true
-            sudo docker run -d -p 8081:8081 --env-file .env --name list-user-service list-user-service
+            # Ejecutar la nueva imagen con el .env
+            sudo docker run -d --env-file .env -p 8081:8081 --name list-user-service ${{ secrets.DOCKER_USERNAME }}/list-user-service:latest

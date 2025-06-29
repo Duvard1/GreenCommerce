@@ -16,7 +16,7 @@ This microservice is part of the **GreenCommerce** distributed system, focused o
 
 ---
 
-## Software Architecture
+## 🛠️ Software Architecture
 
 The structure follows a **layered architecture**, which is a classic and widely used approach in enterprise applications:
 
@@ -30,7 +30,7 @@ The structure follows a **layered architecture**, which is a classic and widely 
 
 ---
 
-## Folder Structure
+## 📂 Folder Structure
 
 The folder structure follows layered architectural principles, facilitating the separation of responsibilities within the project. Spring Boot ensures that each layer fulfills a specific function. This approach not only organizes the project in a modular manner but also improves maintainability and scalability. The clear separation of responsibilities makes the code more understandable and easier to maintain in the long run, as each part of the system is isolated and well-defined, allowing developers to work more efficiently and with a clearer focus on specific tasks.
 
