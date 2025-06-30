@@ -9,7 +9,8 @@ router = APIRouter()
 def get_user_info(Authorization: str = Header(...)):
     payload = decode_token(Authorization)
     email = payload.get("email") or payload.get("sub")
-
+    
+    
     if not email:
         raise HTTPException(status_code=400, detail="Token sin email o sub")
 
