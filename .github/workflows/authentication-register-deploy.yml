@@ -23,7 +23,7 @@ jobs:
 
       - name: Build and Push Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/register-service:latest ./Backend/Domains/Authentication/Register
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/register-service:latest ./Backend/Domains/Authentication/Register/app/register-service
           docker push ${{ secrets.DOCKER_USERNAME }}/register-service:latest
 
       - name: SSH into EC2 and deploy container

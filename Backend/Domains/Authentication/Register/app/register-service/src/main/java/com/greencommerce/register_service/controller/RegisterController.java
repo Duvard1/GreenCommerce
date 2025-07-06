@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/auth")
 public class RegisterController {
     @Autowired
+    // RegisterService is the service that handles user registration logic
     private RegisterService registerService;
 
     @Operation(
