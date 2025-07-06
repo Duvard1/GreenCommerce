@@ -1,4 +1,4 @@
-name: Deploy Authentication Register to AWS EC2
+name: Deploy Register Microservice to AWS EC2
 
 on:
   push:
@@ -8,133 +8,53 @@ on:
       - 'Backend/Domains/Authentication/Register/**'
 
 jobs:
-  deploy-auth:
+  deploy-register:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4 # Clonar repo en la máquina de Actions.
+        uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
         with:
-          distribution: temurin
-          java-version: '17'
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-
-
-      - name: Inject application.properties with secrets
+      - name: Build and Push Docker image
         run: |
-          mkdir -p Backend/Domains/Authentication/Register/app/register-service/src/main/resources
-          cat <<EOF > Backend/Domains/Authentication/Register/app/register-service/src/main/resources/application.properties
-          spring.application.name=RegisterService
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/register-service:latest ./Backend/Domains/Authentication/Register
+          docker push ${{ secrets.DOCKER_USERNAME }}/register-service:latest
 
-          # Configuración de la base de datos (MySQL)
-          spring.datasource.url=${{ secrets.DB_URL }}
-          spring.datasource.username=${{ secrets.DB_USER }}
-          spring.datasource.password=${{ secrets.DB_PASSWORD }}
-          spring.datasource.initialization-mode=always
-          spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-          spring.jpa.defer-datasource-initialization=true
-
-          # Hibernate settings
-          spring.jpa.hibernate.ddl-auto=update
-          spring.jpa.show-sql=true
-          spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
-
-          # Puerto de la aplicación
-          server.port=8081
-
-          # Configuración de seguridad JWT
-          jwt.secret=${{ secrets.JWT_SECRET }}
-          EOF
-
-
-
-      - name: Build the JAR
-        run: |
-          cd Backend/Domains/Authentication/Register/app/register-service
-          mvn clean package -DskipTests
-
-      - name: Copy JAR to EC2
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.EC2_AUTH_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_KEYPAIR }}
-          port: 22
-          source: Backend/Domains/Authentication/Register/app/register-service/target/register-service-0.0.1-SNAPSHOT.jar
-          target: /home/ubuntu/GreenCommerce/
-
-      - name: Restart register-service on EC2
+      - name: SSH into EC2 and deploy container
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.EC2_AUTH_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_KEYPAIR }}
           port: 22
-          script_stop: false
-          command_timeout: 2m
           script: |
-            cd /home/ubuntu/GreenCommerce/Backend/Domains/Authentication/Register/app/register-service/target
+            # Navigate to the directory where the container will run (or create it)
+            mkdir -p ~/register-deploy
+            cd ~/register-deploy
 
-            # Create a deployment script to run in background
-            cat > deploy_service.sh << 'EOF'
-            #!/bin/bash
-                        
-            # Kill any running instances using a more targeted approach
-            echo "Checking for existing processes..."
-            EXISTING_PIDS=$(pgrep -f "register-service-0.0.1-SNAPSHOT.jar" || true)
-            if [ -n "$EXISTING_PIDS" ]; then
-              echo "Found processes: $EXISTING_PIDS"
-              for PID in $EXISTING_PIDS; do
-                echo "Killing process $PID..."
-                kill $PID 2>/dev/null || true
-              done
-              sleep 3
-              
-              # Check if any are still running and force kill
-              REMAINING_PIDS=$(pgrep -f "register-service-0.0.1-SNAPSHOT.jar" || true)
-              if [ -n "$REMAINING_PIDS" ]; then
-                echo "Force killing remaining processes: $REMAINING_PIDS"
-                for PID in $REMAINING_PIDS; do
-                  kill -9 $PID 2>/dev/null || true
-                done
-                sleep 2
-              fi
-            else
-              echo "No existing processes found"
-            fi
+            # Stop and remove old containers
+            docker ps -aq | xargs -r docker stop
+            docker ps -aq | xargs -r docker rm
 
-            # Create logs directory
-            mkdir -p logs
+            # Delete old images
+            docker images -q | xargs -r docker rmi -f
 
-            # Start the service
-            echo "Starting register-service..."
-            nohup java -jar register-service-0.0.1-SNAPSHOT.jar > logs/app.log 2>&1 &
-            SERVICE_PID=$!
+            # Download new image
+            docker pull ${{ secrets.DOCKER_USERNAME }}/register-service:latest
 
-            echo "Service started with PID: $SERVICE_PID"
-
-            # Wait and verify the service is running
-            sleep 5
-            if kill -0 $SERVICE_PID 2>/dev/null; then
-              echo "Service is running successfully with PID: $SERVICE_PID"
-              echo "Checking application logs:"
-              sleep 2
-              tail -n 5 logs/app.log 2>/dev/null || echo "No logs yet"
-              echo "$SERVICE_PID" > service.pid
-            else
-              echo "Service failed to start or crashed"
-              echo "Application logs:"
-              cat logs/app.log 2>/dev/null || echo "No log file found"
-              exit 1
-            fi
-
-            echo "Deployment completed successfully!"
+            # Create .env file with secret values
+            cat <<EOF > .env
+            DB_URL=${{ secrets.DB_URL }}
+            DB_USER=${{ secrets.DB_USER }}
+            DB_PASS=${{ secrets.DB_PASSWORD }}
+            SERVER_PORT=8081
             EOF
-                        
-                        chmod +x deploy_service.sh
-            
-            # Run the deployment script
-            echo "Executing deployment..."
-            ./deploy_service.sh
+
+            # Run container with .env
+            docker run --env-file .env -p 8081:8081 ${{ secrets.DOCKER_USERNAME }}/register-service:latest

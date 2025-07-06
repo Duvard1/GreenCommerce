@@ -93,19 +93,28 @@ Access from this microservice is made using the RDS host URL and the credentials
 
 ## 🐳 How to Set Up Locally with Docker Compose
 
-### 1. Clean up previous containers and volumes
+### 1. Clean up previous containers and images
 
 ```bash
-docker-compose down -v
+docker ps -a
+docker rm id_docker
+docker images
+docker rmi id_image
 ```
 
-### 2. Build and start the services
+### 2. Build the image  
 
 ```bash
-docker-compose up --build
+docker build -t duvard/login-service:lastest .
+```
+### 3. Run the container:
+
+```bash
+docker run --env-file .env -p 8082:8082 duvard/login-service:lastest
 ```
 
 📍 The service will be available at: http://localhost:8082/auth/login
+
 
 ### 🧪 Request Example
 
@@ -124,6 +133,42 @@ docker-compose up --build
 }
 ```
 
+---
+
+## 🔍 How to Test the `/auth/login` Endpoint in Swagger
+
+### 1. Run the application using:
+
+```bash
+mvn spring-boot:run
+```
+
+### 2. Open your browser and go to:
+
+```bash
+http://localhost:8082/swagger-ui.html
+```
+
+### 3. Locate the POST /auth/login endpoint.
+
+### 4. Click on `Try it out`, then enter the login credentials in JSON format:
+
+```json
+{
+  "email": "admin@email.com",
+  "password": "admin"
+}
+```
+
+### 5. Click `Execute` to test the endpoint.
+
+### 6. If successful, a JWT token will be returned in the response body.
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1N9..."
+}
+```
 ---
 
 ## 🧑‍💻 Author

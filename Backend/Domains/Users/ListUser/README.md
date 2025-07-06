@@ -98,7 +98,7 @@ docker push name_user_docker/list-user-service:latest
 ### Run the container:
 
 ```bash
-docker run -p 8081:8081 --env-file .env list-user-service
+docker run -p 8081:8081 --env-file .env duvard/list-user-service
 ```
 
 ### Visit the endpoint:
@@ -111,19 +111,19 @@ Headers: Authorization: Bearer <JWT_TOKEN>
 ### Stop the container
 
 ```bash
-docker stop list-user-test
+docker stop list-user-service
 ```
 
 ### Delete the stopped container
 
 ```bash
-docker rmi list-user-test
+docker rm list-user-service
 ```
 
 ### Delete the image
 
 ```bash
-docker rmi list-user-service
+docker rmi user_name_docker/list-user-service:lastest
 ```
 
 ---

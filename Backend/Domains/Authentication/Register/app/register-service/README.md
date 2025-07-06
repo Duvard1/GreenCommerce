@@ -88,15 +88,24 @@ Access from this microservice is made using the RDS host URL and the credentials
 
 ## 🐳 How to Set Up Locally with Docker Compose
 
-### 1. Clean up previous containers and volumes
+### 1. Clean up previous containers and images
 
 ```bash
-docker-compose down -v
+docker ps -a
+docker rm id_docker
+docker images
+docker rmi id_image
 ```
 
-### 2. Build and start the services
+### 2. Build the image  
+
 ```bash
-docker-compose up --build
+docker build -t duvard/register-service:lastest .
+```
+### 3. Run the container:
+
+```bash
+docker run --env-file .env -p 8081:8081 duvard/register-service:lastest
 ```
 
 📍 The service will be available at: http://localhost:8081/auth/register
@@ -123,6 +132,45 @@ docker-compose up --build
 ```bash
 User registered successfully!
 ```
+
+---
+
+## 🔍 How to Test the `/auth/register` Endpoint in Swagger
+
+### 1. Run the application using:
+
+```bash
+mvn spring-boot:run
+```
+
+### 2. Open your browser and go to:
+
+```bash
+http://localhost:8081/swagger-ui.html
+```
+
+### 3. Locate the POST /auth/register endpoint.
+
+### 4. Click on `Try it out`, then fill in the request body with a valid JSON, for example:
+
+```json
+{
+  "name": "admin",
+  "lastName": "admin",
+  "dayBirth": 1,
+  "monthBirth": 1,
+  "yearBirth": 2001,
+  "gender": "Hombre",
+  "phoneNumber": "0999999999",
+  "email": "admin@email.com",
+  "password": "admin",
+  "shippingAddress": "123 Main St, Quito"
+}
+```
+
+### 5. Click `Execute` to test the endpoint.
+
+### 6. Check the Server response section for a 200 OK or error message.
 
 ---
 

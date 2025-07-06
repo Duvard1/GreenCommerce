@@ -34,17 +34,17 @@ jobs:
           key: ${{ secrets.EC2_KEYPAIR }}
           port: 22
           script: |
-            # Detener y eliminar contenedor si existe
+            # Stop and delete container if it exists
             sudo docker stop list-user-service || true
             sudo docker rm list-user-service || true
 
-            # Eliminar imagen antigua
+            # Delete old image
             sudo docker rmi ${{ secrets.DOCKER_USERNAME }}/list-user-service:latest || true
 
-            # Descargar la imagen actualizada desde Docker Hub
+            # Download the updated image from Docker Hub
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/list-user-service:latest
 
-            # Crear .env en la misma carpeta desde donde correremos el contenedor
+            # Create .env in the same folder from where we will run the container
             cd /home/ubuntu
             echo "DB_HOST=${{ secrets.DB_HOST }}" > .env
             echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
@@ -53,11 +53,11 @@ jobs:
             echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
             echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
 
-            # Verificar que .env no esté vacío
+            # Verify that .env is not empty
             if [ ! -s .env ]; then
-              echo "ERROR: .env está vacío o no fue creado correctamente"
+              echo "ERROR: .env is empty or was not created correctly"
               exit 1
             fi
 
-            # Ejecutar la nueva imagen con el .env
+            # Run the new image with the .env
             sudo docker run -d --env-file .env -p 8081:8081 --name list-user-service ${{ secrets.DOCKER_USERNAME }}/list-user-service:latest

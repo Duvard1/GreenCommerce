@@ -1,10 +1,11 @@
 import mysql.connector
-from app.core.config import DB_CONFIG
+from app.config.settings import settings
 from fastapi import HTTPException
 
-def get_user_by_email(email: str):
-    conn = mysql.connector.connect(**DB_CONFIG)
+def fetch_user_by_email(email: str) -> dict:
+    conn = mysql.connector.connect(**settings.DB_CONFIG)
     cursor = conn.cursor(dictionary=True)
+
     query = """
         SELECT name, last_name AS lastName, day_birth AS dayBirth, 
                month_birth AS monthBirth, year_birth AS yearBirth, 

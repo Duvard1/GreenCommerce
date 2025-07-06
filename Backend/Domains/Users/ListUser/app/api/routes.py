@@ -1,17 +1,50 @@
-from fastapi import APIRouter, Header
+from fastapi import APIRouter, Depends, HTTPException
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from app.utils.jwt_utils import decode_token
-from app.services.user_service import get_user_by_email
-from app.models.user_response import UserResponse
+from app.application.user_usecase import get_user_info_usecase
+from app.models.user_model import UserResponse
 
 router = APIRouter()
+security = HTTPBearer()
 
-@router.get("/user/info", response_model=UserResponse)
-def get_user_info(Authorization: str = Header(...)):
-    payload = decode_token(Authorization)
+@router.get(
+    "/user/info",
+    response_model=UserResponse,
+    summary="Get authenticated user info",
+    description=(
+        "Retrieves profile data for the currently authenticated user. "
+        "Requires a valid JWT token provided through Swagger's 'Authorize' button."
+    ),
+    responses={
+        200: {
+            "description": "User info returned successfully",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "name": "Juan",
+                        "lastName": "Pérez",
+                        "dayBirth": 15,
+                        "monthBirth": 6,
+                        "yearBirth": 1995,
+                        "gender": "Hombre",
+                        "phoneNumber": "0991234567",
+                        "email": "juan.perez@email.com",
+                        "profileImage": "https://example.com/profile.jpg"
+                    }
+                }
+            },
+        },
+        400: {"description": "Missing or malformed token"},
+        401: {"description": "Invalid or expired token"},
+        404: {"description": "User not found"}
+    },
+)
+def get_user_info(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    token = credentials.credentials
+    payload = decode_token(f"Bearer {token}")
+
     email = payload.get("email") or payload.get("sub")
-    
-    
     if not email:
-        raise HTTPException(status_code=400, detail="Token sin email o sub")
+        raise HTTPException(status_code=400, detail="Token with no email or sub")
 
-    return get_user_by_email(email)
+    return get_user_info_usecase(email)

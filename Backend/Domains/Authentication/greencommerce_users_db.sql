@@ -12,5 +12,7 @@ CREATE TABLE users (
     phone_number VARCHAR(10) NOT NULL,
     email VARCHAR(100) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    profile_photo varchar(200) DEFAULT NULL
+    profile_photo varchar(200) DEFAULT NULL,
+    shipping_address VARCHAR(255) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

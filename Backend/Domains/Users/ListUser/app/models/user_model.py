@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 class UserResponse(BaseModel):
     name: str
@@ -8,5 +8,5 @@ class UserResponse(BaseModel):
     yearBirth: int
     gender: str
     phoneNumber: str
-    email: str
+    email: EmailStr
     profileImage: str | None
