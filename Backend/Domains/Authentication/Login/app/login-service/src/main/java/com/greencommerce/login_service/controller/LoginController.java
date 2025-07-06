@@ -44,6 +44,7 @@ public class LoginController {
 
 
     @PostMapping("/login")
+    // Endpoint for user login
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
         try {
             String token = loginService.login(request);

@@ -23,8 +23,8 @@ jobs:
 
       - name: Build and Push Docker image
         run: |
-          sudo docker build -t ${{ secrets.DOCKER_USERNAME }}/login-service:latest ./Backend/Domains/Authentication/Login/app/login-service
-          sudo docker push ${{ secrets.DOCKER_USERNAME }}/login-service:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/login-service:latest ./Backend/Domains/Authentication/Login/app/login-service
+          docker push ${{ secrets.DOCKER_USERNAME }}/login-service:latest
 
       - name: SSH into EC2 and deploy container
         uses: appleboy/ssh-action@v0.1.7
@@ -58,4 +58,4 @@ jobs:
             EOF
 
             # Run container with .env
-            sudo docker run --env-file .env -p 8082:8082 ${{ secrets.DOCKER_USERNAME }}/login-service:latest
+            sudo docker run -d --env-file .env -p 8082:8082 ${{ secrets.DOCKER_USERNAME }}/login-service:latest
