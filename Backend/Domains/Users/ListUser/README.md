@@ -63,7 +63,12 @@ The proposed structure is based on a modular and decoupled architecture, aligned
 
 ## 💋​ Design pattern - KISS (Keep It Simple, Stupid)
 
-This microservice applies the KISS principle to keep the code clean, direct and without envelope. The creation of unnecessary classes, abstract interfaces or excessively generalized logic is avoided, its only function is to return the information of the authenticated user. The use of pure functions, simple modules and known structures allows any developer to understand and maintain the code easily.
+The code clearly follows the KISS (Keep It Simple, Stupid) principle, as it maintains simple, clear logic without unnecessary complexity.
+
+The endpoint has a single responsibility: retrieving information about the authenticated user. It doesn't mix in other functionalities, and the data flow is linear and easy to follow—it receives the token, decodes it, extracts the email, and delegates to the use case.
+
+Each component performs a specific task, with no overengineering or unnecessary coupling. This makes the code readable, straightforward, and easy to maintain, fulfilling the core objectives of the KISS principle.
+
 
 ---
 
@@ -178,6 +183,23 @@ Authorization: Bearer <jwt_token>
   "password": "admin"
 }
 ```
+---
+
+## 🔍 ListUser Service – Swagger Test Guide
+
+### 1. Run the application.
+
+### 2. Open your browser and go to:
+
+```bash
+http://localhost:8081/docs
+```
+
+### 3. Click the Authorize button and paste your JWT token
+
+### 4. Click Authorize and then Close.
+
+### 5. Click Try it out → Execute and you'll get the authenticated user's information.
 
 ---
 

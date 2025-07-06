@@ -75,6 +75,15 @@ The folder structure follows layered architectural principles, facilitating the 
     ├── pom.xml
     └── README.md
 ```
+---
+
+## 💋​ Design pattern - KISS (Keep It Simple, Stupid)
+
+The code clearly follows the KISS (Keep It Simple, Stupid) principle, as it maintains simple, clear logic without unnecessary complexity.
+
+The login endpoint has a single responsibility: authenticating a user and issuing a token. It doesn't mix in validation logic, database queries, or token generation directly—these are delegated to specialized components like LoginService, UserRepository, and JwtUtil.
+
+Each class performs a well-defined task in a linear, easy-to-follow flow: receive credentials → validate them → return a token. There is no overengineering, inheritance hierarchy, or complex configuration, making the code readable, maintainable, and straightforward to extend.
 
 ---
 

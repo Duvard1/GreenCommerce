@@ -73,6 +73,17 @@ The folder structure follows layered architectural principles, facilitating the 
 
 ---
 
+## 🔥 Design pattern - DRY (Don't Repeat Yourself)
+
+This `register-service` microservice applies the DRY (Don't Repeat Yourself) principle because it avoids redundancy in logic and configurations through good organizational practices:
+
+- **Centralized logic:** All registration logic (existence check, encryption, and saving) is encapsulated in a single class (RegisterService), avoiding repetition in the controller or other components.
+
+- **Use of annotations:** You use Lombok’s @Data and JPA and Swagger annotations (@Column, @Schema) to avoid repeating common code such as getters, setters, and documentation, keeping the model clean.
+
+- **Reusable configurations:** You define the PasswordEncoder as a @Bean in PasswordEncoderConfig, allowing it to be reused across the application without duplicating its instance or logic.
+
+---
 ## ⚙️ Database Configuration
 
 This microservice connects to a **MySQL** database hosted on **AWS RDS**. The configuration is done using the following credentials:
@@ -137,11 +148,7 @@ User registered successfully!
 
 ## 🔍 How to Test the `/auth/register` Endpoint in Swagger
 
-### 1. Run the application using:
-
-```bash
-mvn spring-boot:run
-```
+### 1. Run the application.
 
 ### 2. Open your browser and go to:
 
