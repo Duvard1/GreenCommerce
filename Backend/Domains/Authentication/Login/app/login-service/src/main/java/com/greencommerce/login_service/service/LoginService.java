@@ -13,16 +13,19 @@ import java.util.Optional;
 
 @Service
 public class LoginService {
-@Autowired
-private UserRepository userRepository;
 
-@Autowired
-private JwtUtil jwtUtil;
+    private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    public LoginService(UserRepository userRepository, JwtUtil jwtUtil) {
+        this.userRepository = userRepository;
+        this.jwtUtil = jwtUtil;
+    }
 
-public String login(LoginRequest request) {
-    Optional<User> optionalUser = userRepository.findByEmail(request.getEmail());
+    public String login(LoginRequest request) {
+        Optional<User> optionalUser = userRepository.findByEmail(request.getEmail());
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
@@ -34,5 +37,5 @@ public String login(LoginRequest request) {
         }
 
         return null; // credenciales incorrectas
-}
+    }
 }

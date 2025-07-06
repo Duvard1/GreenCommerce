@@ -87,6 +87,25 @@ Each class performs a well-defined task in a linear, easy-to-follow flow: receiv
 
 ---
 
+## ✅ Unit Test
+
+1. User valid with correct password and returns token
+- Simulates a correct user.
+- Compare the password.
+- Returns a Token Jwt.
+
+2. User does not exist → Returns Null
+- It simulates that the user is not in the database.
+- It does not try to authenticate it.
+- Answer: Null.
+
+3. Incorrect password → returns null
+- It simulates that the user exists.
+- But your password is incorrect.
+- Answer: Null.
+
+---
+
 ## ⚙️ Database Configuration
 
 This microservice connects to a **MySQL** database hosted on **AWS RDS**. The configuration is done using the following credentials:
