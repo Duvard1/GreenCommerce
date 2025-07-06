@@ -23,8 +23,8 @@ jobs:
 
       - name: Build and Push Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/login-service:latest ./Backend/Domains/Authentication/Login/app/login-service
-          docker push ${{ secrets.DOCKER_USERNAME }}/login-service:latest
+          sudo docker build -t ${{ secrets.DOCKER_USERNAME }}/login-service:latest ./Backend/Domains/Authentication/Login/app/login-service
+          sudo docker push ${{ secrets.DOCKER_USERNAME }}/login-service:latest
 
       - name: SSH into EC2 and deploy container
         uses: appleboy/ssh-action@v0.1.7
@@ -39,14 +39,14 @@ jobs:
             cd ~/login-deploy
 
             # Stop and remove old containers
-            docker ps -aq | xargs -r docker stop
-            docker ps -aq | xargs -r docker rm
+            sudo docker ps -aq | xargs -r sudo docker stop
+            sudo docker ps -aq | xargs -r sudo docker rm
 
             # Delete old images
-            docker images -q | xargs -r docker rmi -f
+            sudo docker images -q | xargs -r sudo docker rmi -f
 
             # Download new image
-            docker pull ${{ secrets.DOCKER_USERNAME }}/login-service:latest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/login-service:latest
 
             # Create .env file with secret values
             cat <<EOF > .env
@@ -58,4 +58,4 @@ jobs:
             EOF
 
             # Run container with .env
-            docker run --env-file .env -p 8082:8082 ${{ secrets.DOCKER_USERNAME }}/login-service:latest
+            sudo docker run --env-file .env -p 8082:8082 ${{ secrets.DOCKER_USERNAME }}/login-service:latest

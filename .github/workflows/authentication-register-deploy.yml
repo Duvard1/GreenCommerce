@@ -39,14 +39,14 @@ jobs:
             cd ~/register-deploy
 
             # Stop and remove old containers
-            docker ps -aq | xargs -r docker stop
-            docker ps -aq | xargs -r docker rm
+            sudo docker ps -aq | xargs -r sudo docker stop
+            sudo docker ps -aq | xargs -r sudo docker rm
 
             # Delete old images
-            docker images -q | xargs -r docker rmi -f
+            sudo docker images -q | xargs -r sudo docker rmi -f
 
             # Download new image
-            docker pull ${{ secrets.DOCKER_USERNAME }}/register-service:latest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/register-service:latest
 
             # Create .env file with secret values
             cat <<EOF > .env
@@ -57,4 +57,4 @@ jobs:
             EOF
 
             # Run container with .env
-            docker run --env-file .env -p 8081:8081 ${{ secrets.DOCKER_USERNAME }}/register-service:latest
+            sudo docker run --env-file .env -p 8081:8081 ${{ secrets.DOCKER_USERNAME }}/register-service:latest
