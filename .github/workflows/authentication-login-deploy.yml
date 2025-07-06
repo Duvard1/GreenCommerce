@@ -29,6 +29,8 @@ jobs:
 
       - name: Run unit tests with Maven
         working-directory: ./Backend/Domains/Authentication/Login/app/login-service
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
         run: ./mvnw clean test
 
       - name: Log in to Docker Hub
