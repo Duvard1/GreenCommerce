@@ -29,7 +29,6 @@ public class LoginController {
     private LoginService loginService;
 
         @Operation(
-        // This operation handles user login and returns a JWT token if the credentials are valid.
         summary = "User login",
         description = "Authenticates a user and returns a JWT token if credentials are valid.",
         responses = {
