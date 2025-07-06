@@ -1,8 +1,8 @@
-# Etapa 1: Build con Maven
+# Etapa 1: Build con Maven (ejecuta tests)
 FROM maven:3.9.6-eclipse-temurin-17 AS builder
 WORKDIR /app
 COPY . .
-RUN mvn clean package -DskipTests
+RUN ./mvnw clean package
 
 # Etapa 2: Ejecutar la app
 FROM openjdk:17-jdk-slim
