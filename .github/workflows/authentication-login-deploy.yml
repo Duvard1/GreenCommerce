@@ -31,6 +31,8 @@ jobs:
         working-directory: ./Backend/Domains/Authentication/Login/app/login-service
         env:
           DB_URL: ${{ secrets.DB_URL }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: ./mvnw clean test
 
       - name: Log in to Docker Hub
