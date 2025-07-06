@@ -16,7 +16,6 @@ public class RegisterService {
     private PasswordEncoder passwordEncoder;
 
     public void register(User user) {
-        // Check if user already exists
         if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new RuntimeException("User already exists!");
         }
