@@ -29,6 +29,7 @@ public class LoginController {
     private LoginService loginService;
 
         @Operation(
+            // Endpoint for user login
         summary = "User login",
         description = "Authenticates a user and returns a JWT token if credentials are valid.",
         responses = {
