@@ -3,6 +3,7 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from app.utils.jwt_utils import decode_token
 from app.application.user_usecase import get_user_info_usecase
 from app.models.user_model import UserResponse
+from app.utils.logger import logger
 
 router = APIRouter()
 security = HTTPBearer()
@@ -29,7 +30,8 @@ security = HTTPBearer()
                         "gender": "Hombre",
                         "phoneNumber": "0991234567",
                         "email": "juan.perez@email.com",
-                        "profileImage": "https://example.com/profile.jpg"
+                        "profileImage": "https://example.com/profile.jpg",
+                        "shippingAddress": "Calle Falsa 123"
                     }
                 }
             },
@@ -40,11 +42,14 @@ security = HTTPBearer()
     },
 )
 def get_user_info(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    logger.info("request received in /user/info")
     token = credentials.credentials
     payload = decode_token(f"Bearer {token}")
 
     email = payload.get("email") or payload.get("sub")
     if not email:
+        logger.warning("Token sin email o sub")
         raise HTTPException(status_code=400, detail="Token with no email or sub")
-
+        
+    logger.info(f"Searching for user with email: {email}")
     return get_user_info_usecase(email)

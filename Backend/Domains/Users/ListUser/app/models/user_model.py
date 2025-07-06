@@ -10,3 +10,4 @@ class UserResponse(BaseModel):
     phoneNumber: str
     email: EmailStr
     profileImage: str | None
+    shippingAddress: str | None

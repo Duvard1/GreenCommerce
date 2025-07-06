@@ -18,6 +18,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 
 @RestController
 @RequestMapping("/auth")
@@ -25,11 +29,12 @@ import jakarta.validation.Valid;
 @Tag(name = "Authentication", description = "Endpoints for user login using email and password")
 public class LoginController {
 
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+
     @Autowired
     private LoginService loginService;
 
         @Operation(
-            // Endpoint for user login
         summary = "User login",
         description = "Authenticates a user and returns a JWT token if credentials are valid.",
         responses = {
@@ -46,15 +51,18 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
+        logger.info("Login attempt received for email: {}", request.getEmail());
         try {
             String token = loginService.login(request);
-
             if (token != null) {
+                logger.info("Login successful for email: {}", request.getEmail());
                 return ResponseEntity.ok(Collections.singletonMap("token", token));
             } else {
+                logger.warn("Invalid login credentials for email: {}", request.getEmail());
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
             }
         } catch (Exception e) {
+            logger.error("Internal server error during login for email: {}", request.getEmail(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
         }
     }

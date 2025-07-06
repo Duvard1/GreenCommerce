@@ -115,7 +115,7 @@ docker push name_user_docker/list-user-service:latest
 ### Run the container:
 
 ```bash
-docker run -p 8081:8081 --env-file .env duvard/list-user-service
+docker run -p 8081:8081 --env-file .env name_user_docker/list-user-service
 ```
 
 ### Visit the endpoint:

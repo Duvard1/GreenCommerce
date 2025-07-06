@@ -39,4 +39,10 @@ public class User {
     @Column(name = "profile_photo")
     private String profilePhoto;
 
+    @Column(name = "shipping_address")
+    private String shippingAddress;
+
+    @Column(name = "created_at", insertable = false, updatable = false)
+    private java.sql.Timestamp createdAt;
+
 }
