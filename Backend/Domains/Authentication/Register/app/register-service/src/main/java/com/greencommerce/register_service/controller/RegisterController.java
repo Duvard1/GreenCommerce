@@ -11,11 +11,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Tag(name = "Auth", description = "User registration microservice")
 @RestController
 @RequestMapping("/auth")
 public class RegisterController {
+    private static final Logger logger = LoggerFactory.getLogger(RegisterController.class);
     @Autowired
     private RegisterService registerService;
 
@@ -30,9 +33,14 @@ public class RegisterController {
         }
     )
 
+
+    
+
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
+        logger.info("Received registration request for email: {}", user.getEmail());
         registerService.register(user);
+        logger.info("Registration completed for email: {}", user.getEmail());
         return ResponseEntity.ok("User registered successfully!");
     }
 }

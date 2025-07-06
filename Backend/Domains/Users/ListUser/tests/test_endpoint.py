@@ -23,7 +23,8 @@ def test_get_user_info_success(monkeypatch):
             "gender": "Hombre",
             "phoneNumber": "0999999999",
             "email": email,
-            "profileImage": "https://example.com/profile.jpg"
+            "profileImage": "https://example.com/profile.jpg",
+            "shippingAddress": "Calle Falsa 123"
         }
 
     monkeypatch.setattr("app.api.routes.decode_token", mock_decode_token)

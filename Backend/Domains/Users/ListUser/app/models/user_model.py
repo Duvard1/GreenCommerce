@@ -1,4 +1,5 @@
 from pydantic import BaseModel, EmailStr
+from typing import Optional
 
 class UserResponse(BaseModel):
     name: str
@@ -9,5 +10,5 @@ class UserResponse(BaseModel):
     gender: str
     phoneNumber: str
     email: EmailStr
-    profileImage: str | None
-    shippingAddress: str | None
+    profileImage: Optional[str] = None
+    shippingAddress: Optional[str] = None

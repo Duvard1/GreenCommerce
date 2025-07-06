@@ -128,12 +128,12 @@ docker rmi id_image
 ### 2. Build the image  
 
 ```bash
-docker build -t duvard/register-service:lastest .
+docker build -t username_docker/register-service:lastest .
 ```
 ### 3. Run the container:
 
 ```bash
-docker run --env-file .env -p 8081:8081 duvard/register-service:lastest
+docker run --env-file .env -p 8081:8081 username_docker/register-service:lastest
 ```
 
 📍 The service will be available at: http://localhost:8081/auth/register
