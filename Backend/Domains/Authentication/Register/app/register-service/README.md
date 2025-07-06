@@ -84,6 +84,23 @@ This `register-service` microservice applies the DRY (Don't Repeat Yourself) pri
 - **Reusable configurations:** You define the PasswordEncoder as a @Bean in PasswordEncoderConfig, allowing it to be reused across the application without duplicating its instance or logic.
 
 ---
+
+## ✅ Unit Test
+
+### Case 1: The user already exists
+
+- Simulate that there is already a user registered with that email.
+- Verify that the service throws an exception and does not save anything.
+
+### Case 2: The user is new
+
+- Simulate that there is no user with that email.
+- Verify that the service:
+    - Encrypts the password
+    - Saves the user correctly.
+
+---
+
 ## ⚙️ Database Configuration
 
 This microservice connects to a **MySQL** database hosted on **AWS RDS**. The configuration is done using the following credentials:

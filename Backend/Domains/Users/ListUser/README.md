@@ -69,6 +69,18 @@ The endpoint has a single responsibility: retrieving information about the authe
 
 Each component performs a specific task, with no overengineering or unnecessary coupling. This makes the code readable, straightforward, and easy to maintain, fulfilling the core objectives of the KISS principle.
 
+---
+
+## ✅ Unit Test
+
+This test verifies that the endpoint `/user/info` works correctly when everything is fine.
+It simulates a request with a valid token and an existing user, without using a real database or a real token.
+Instead, cheat the system (mock) two things:
+1. The Token is interpreted as valid.
+2. The user exists and returns their simulated profile.
+Then, the test reviews that:
+- The answer is successful (code 200),
+- And that the mail returned is expected.
 
 ---
 
