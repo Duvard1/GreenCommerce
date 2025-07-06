@@ -3,7 +3,8 @@ package com.greencommerce.register_service.service;
 import com.greencommerce.register_service.model.User;
 import com.greencommerce.register_service.repository.UserRepository;
 
-import main.java.com.greencommerce.register_service.service.RegisterService;
+import com.greencommerce.register_service.service.RegisterService;
+
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
