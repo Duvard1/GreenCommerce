@@ -1,0 +1,26 @@
+# .gitignore - terraform/
+security_groups.tf
+aws_credentials.txt
+
+
+
+# Carpetas locales de terraform
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+crash.log
+
+# Archivos de planificación
+*.tfplan
+
+# Archivos de override locales
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Variables sensibles
+terraform.tfvars
+
+

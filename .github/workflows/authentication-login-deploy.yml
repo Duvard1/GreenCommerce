@@ -1,0 +1,61 @@
+name: Deploy Login Service to AWS EC2
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - 'Backend/Domains/Authentication/Login/**'
+
+jobs:
+  deploy-login:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build (runs tests) and Push Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/login-service:latest ./Backend/Domains/Authentication/Login/app/login-service
+          docker push ${{ secrets.DOCKER_USERNAME }}/login-service:latest
+
+      - name: SSH into EC2 and deploy container
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_AUTH_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_KEYPAIR }}
+          port: 22
+          script: |
+            # Navigate to the directory where the container will run (or create it)
+            mkdir -p ~/login-deploy
+            cd ~/login-deploy
+
+            # Stop and remove old containers
+            sudo docker ps -aq | xargs -r sudo docker stop
+            sudo docker ps -aq | xargs -r sudo docker rm
+
+            # Delete old images
+            sudo docker images -q | xargs -r sudo docker rmi -f
+
+            # Download new image
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/login-service:latest
+
+            # Create .env file with secret values
+            cat <<EOF > .env
+            DB_URL=${{ secrets.DB_URL }}
+            DB_USER=${{ secrets.DB_USER }}
+            DB_PASS=${{ secrets.DB_PASSWORD }}
+            SERVER_PORT=8082
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            EOF
+
+            # Run container with .env
+            sudo docker run -d --env-file .env -p 8082:8082 ${{ secrets.DOCKER_USERNAME }}/login-service:latest

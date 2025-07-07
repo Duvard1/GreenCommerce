@@ -1,0 +1,78 @@
+name: Deploy ListUser from DockerHub to AWS EC2
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - 'Backend/Domains/Users/ListUser/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+        ## UNIT TEST
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install test dependencies
+        run: |
+          pip install -r ./Backend/Domains/Users/ListUser/requirements.txt
+
+      - name: Run unit tests
+        run: |
+          pytest ./Backend/Domains/Users/ListUser/tests
+
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and Push Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/list-user-service:latest ./Backend/Domains/Users/ListUser
+          docker push ${{ secrets.DOCKER_USERNAME }}/list-user-service:latest
+
+      - name: SSH and Deploy on EC2
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_USERS_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_KEYPAIR }}
+          port: 22
+          script: |
+            # Stop and delete container if it exists
+            sudo docker stop list-user-service || true
+            sudo docker rm list-user-service || true
+
+            # Delete old image
+            sudo docker rmi ${{ secrets.DOCKER_USERNAME }}/list-user-service:latest || true
+
+            # Download the updated image from Docker Hub
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/list-user-service:latest
+
+            # Create .env in the same folder from where we will run the container
+            cd /home/ubuntu
+            echo "DB_HOST=${{ secrets.DB_HOST }}" > .env
+            echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+            echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env  
+            echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+            echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+
+            # Verify that .env is not empty
+            if [ ! -s .env ]; then
+              echo "ERROR: .env is empty or was not created correctly"
+              exit 1
+            fi
+
+            # Run the new image with the .env
+            sudo docker run -d --env-file .env -p 8081:8081 --name list-user-service ${{ secrets.DOCKER_USERNAME }}/list-user-service:latest
