@@ -30,7 +30,7 @@ def test_get_user_info_success(monkeypatch):
     monkeypatch.setattr("app.api.routes.decode_token", mock_decode_token)
     monkeypatch.setattr("app.api.routes.get_user_info_usecase", mock_usecase)
 
-    # Ejecuta la petición simulada
+
     response = client.get(
         "/user/info",
         headers={"Authorization": "Bearer fake.jwt.token"}
