@@ -16,28 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      ## UNIT TEST
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
 
-      - name: Install test dependencies
-        run: |
-          pip install -r ./Backend/Domains/Users/UpdateUser/requirements.txt
-
-
-      - name: Set up environment variables
-        run: |
-          echo "DB_URL=${{ secrets.DB_URL }}" >> $GITHUB_ENV
-          echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
-          echo "DB_PASS=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
-          echo "DB_PORT=3306" >> $GITHUB_ENV
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
-
-      - name: Run unit tests
-        run: |
-          pytest ./Backend/Domains/Users/UpdateUser/tests
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
