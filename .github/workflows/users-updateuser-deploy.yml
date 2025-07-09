@@ -1,4 +1,4 @@
-name: CI/CD Pipeline for UpdateUser
+name: Deploy UpdateUser Microservice to AWS EC2
 
 on:
   push:

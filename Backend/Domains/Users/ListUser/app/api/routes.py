@@ -9,6 +9,7 @@ router = APIRouter()
 security = HTTPBearer()
 
 @router.get(
+    
     "/user/info",
     response_model=UserResponse,
     summary="Get authenticated user info",

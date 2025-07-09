@@ -9,6 +9,7 @@ router = APIRouter()
 security = HTTPBearer()
 
 @router.put("/user/update")
+
 def update_user(
     user: UpdateUserDTO,
     credentials: HTTPAuthorizationCredentials = Depends(security)

@@ -1,4 +1,4 @@
-name: Deploy ListUser from DockerHub to AWS EC2
+name: Deploy ListUser Microservice to AWS EC2
 
 on:
   push:
