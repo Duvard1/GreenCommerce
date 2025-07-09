@@ -34,6 +34,28 @@ This `UpdateUser` microservice implements a **REST-based architecture** and a mo
 
 ## 📂 Folder Structure
 
+```
+└── 📁UpdateUser
+    └── 📁app
+        └── 📁api
+            ├── routes.py
+        └── 📁application
+            ├── update_user_usecase.py
+        └── 📁config
+            ├── settings.py
+        └── 📁domain
+            ├── dto.py
+        └── 📁repository
+            ├── user_repository.py
+        └── 📁utils
+            ├── main.py
+    └── 📁tests
+    ├── .dockerignore
+    ├── .gitignore
+    ├── Dockerfile
+    ├── main.py
+```
+
 ---
 
 ## 📐 Design Pattern – SOLID
@@ -99,7 +121,7 @@ docker push your_user_docker/update-user-service:lastest
 ### Run the container:
 
 ```bash
-docker push your_user_docker/update-user-service:lastest
+docker run -d --env-file .env -p 8082:8082 --name update-user user_name_docker/update-user-service:lastest
 ```
 
 ### Visit the endpoint:
@@ -152,7 +174,7 @@ JWT_SECRET = ...
 ### Run the container:
 
 ```bash
-docker run -d --env-file .env -p 8081:8081 --name list-user duvard/update-user-service:lastest
+docker run -d --env-file .env -p 8081:8081 --name update-user duvard/update-user-service:lastest
 ```
 
 ---

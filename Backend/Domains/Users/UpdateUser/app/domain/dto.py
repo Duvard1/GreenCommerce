@@ -10,5 +10,5 @@ class UpdateUserDTO(BaseModel):
     gender: str
     phoneNumber: str
     email: EmailStr
-    profileImage: Optional[str]
-    shippingAddress: Optional[str]
+    profileImage: Optional[str] = None 
+    shippingAddress: Optional[str] = None 

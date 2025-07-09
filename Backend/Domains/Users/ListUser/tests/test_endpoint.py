@@ -8,11 +8,11 @@ from app.main import app
 client = TestClient(app)
 
 def test_get_user_info_success(monkeypatch):
-    # Simula decode_token
+    # Simule decode_token
     def mock_decode_token(auth_header):
         return {"email": "duvard@email.com"}
 
-    # Simula get_user_info_usecase
+    # Simule get_user_info_usecase
     def mock_usecase(email):
         return {
             "name": "Duvard",

@@ -18,7 +18,8 @@ class UserRepository:
                 year_birth = %s,
                 gender = %s,
                 phone_number = %s,
-                profile_photo = %s
+                profile_photo = %s,
+                shipping_address = %s
             WHERE email = %s
             """
             values = (
@@ -30,6 +31,7 @@ class UserRepository:
                 user.gender,
                 user.phoneNumber,
                 user.profileImage,
+                user.shippingAddress,
                 user.email
             )
             cursor.execute(query, values)
