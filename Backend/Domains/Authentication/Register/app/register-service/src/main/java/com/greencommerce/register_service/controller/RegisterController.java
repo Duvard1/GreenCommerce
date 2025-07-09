@@ -21,7 +21,7 @@ public class RegisterController {
     private static final Logger logger = LoggerFactory.getLogger(RegisterController.class);
     @Autowired
     private RegisterService registerService;
-
+    // Endpoint to register a new user
     @Operation(
         summary = "Register a new user",
         description = "This Endpoint allows you to register a new user with the basic data required.",

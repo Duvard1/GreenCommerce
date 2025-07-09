@@ -1,4 +1,4 @@
-# 📄 ListUser Microservice — GreenCommerce
+# 📄 ListUser Microservice
 
 This microservice is part of the **GreenCommerce** ecosystem, a distributed e-commerce platform for selling lightweight construction materials. The purpose of `ListUser` is to expose an endpoint that allows an authenticated user to retrieve their personal information from a MySQL database.
 
@@ -103,13 +103,13 @@ JWT_SECRET = secretkey...
 ### Build the image:
 
 ```bash
-docker build -t name_user_docker/list-user-service:latest .
+docker build -t name_user_docker/list-user-service:lastest .
 ```
 
 ### Upload the image to Docker Hub
 
 ```bash
-docker push name_user_docker/list-user-service:latest
+docker push name_user_docker/list-user-service:lastest
 ```
 
 ### Run the container:
@@ -150,7 +150,7 @@ docker rmi user_name_docker/list-user-service:lastest
 ### Download the image from Docker Hub
 
 ```bash
-docker pull duvard/list-user-service:latest
+docker pull duvard/list-user-service:lastest
 ```
 
 ### Create a .env file with your credentials:
@@ -167,7 +167,7 @@ JWT_SECRET = ...
 ### Run the container:
 
 ```bash
-docker run -d --env-file .env -p 8081:8081 --name list-user duvard/list-user-service:latest
+docker run -d --env-file .env -p 8081:8081 --name list-user duvard/list-user-service:lastest
 ```
 
 ---
@@ -197,7 +197,7 @@ Authorization: Bearer <jwt_token>
 ```
 ---
 
-## 🔍 ListUser Service – Swagger Test Guide
+## 🔍 Swagger Test Guide
 
 ### 1. Run the application.
 

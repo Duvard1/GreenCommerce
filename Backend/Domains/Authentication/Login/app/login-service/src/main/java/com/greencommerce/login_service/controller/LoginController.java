@@ -30,7 +30,6 @@ import org.slf4j.LoggerFactory;
 public class LoginController {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
-
     @Autowired
     private LoginService loginService;
 
