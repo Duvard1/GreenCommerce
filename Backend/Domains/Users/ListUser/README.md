@@ -199,19 +199,19 @@ Authorization: Bearer <jwt_token>
 
 ## 🔍 Swagger Test Guide
 
-### 1. Run the application.
+1. Run the application.
 
-### 2. Open your browser and go to:
+2. Open your browser and go to:
 
 ```bash
 http://localhost:8081/docs
 ```
 
-### 3. Click the Authorize button and paste your JWT token
+3. Click the Authorize button and paste your JWT token
 
-### 4. Click Authorize and then Close.
+4. Click Authorize and then Close.
 
-### 5. Click Try it out → Execute and you'll get the authenticated user's information.
+5. Click Try it out → Execute and you'll get the authenticated user's information.
 
 ---
 

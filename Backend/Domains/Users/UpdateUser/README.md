@@ -74,18 +74,19 @@ This makes the code **scalable**, **maintainable**, and **secure**.
 
 ## ✅ Functional Test
 
-The update endpoint should be tested with:
+**Database Connection Test:**
+This test verifies that the microservice can successfully connect to the MySQL database defined in the file `.env`.
 
-1. A valid JWT token in the Authorization header.
-2. A payload with user data.
-3. A user that exists in the database (identified by email in the token).
+### 🧪 What does this test do?
 
-Expected behavior:
+- Use `pytest` to test the connection.
+- If it can't connect, fail with a clear error message.
 
-- ✅ Status 200 and message on success.
-- ❌ Status 401 if token and payload email mismatch.
-- ❌ Status 404 if user not found.
-- ❌ Status 500 on internal DB error.
+### ▶️ How to run it
+
+```bash
+pytest tests/test_update_user.py
+```
 
 ---
 

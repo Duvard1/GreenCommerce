@@ -1,4 +1,4 @@
-# 🔐 GreenCommerce – Authentication Domain
+# 🔐 Authentication Domain
 
 This domain handles all authentication operations in the **GreenCommerce** distributed e-commerce platform. It consists of two Spring Boot microservices for user registration and login, using **JWT** for secure authentication and **MySQL (AWS RDS)** for persistent storage.
 

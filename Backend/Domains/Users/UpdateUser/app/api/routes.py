@@ -8,13 +8,24 @@ from app.utils.logger import logger
 router = APIRouter()
 security = HTTPBearer()
 
-@router.put("/user/update")
+@router.put(
+    "/user/update",
+    summary="Update user information",
+    description="Update the authenticated user's personal information. The JWT token must match the email address.",
+    response_description="Success or error message",
+    tags=["Users"]
+)
 
 
 def update_user(
     user: UpdateUserDTO,
     credentials: HTTPAuthorizationCredentials = Depends(security)
 ):
+
+    """
+    Requires a valid JWT with the `email` or `sub` field.
+    The authenticated user must match the email address in the payload.
+    """
     token = credentials.credentials
     payload = decode_token(f"Bearer {token}")
     token_email = payload.get("email") or payload.get("sub")

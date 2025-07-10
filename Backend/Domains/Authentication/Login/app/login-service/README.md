@@ -66,14 +66,12 @@ The folder structure follows layered architectural principles, facilitating the 
     └── 📁target
         ├── login-service-0.0.1-SNAPSHOT.jar
         ├── login-service-0.0.1-SNAPSHOT.jar.original
-    ├── .gitattributes
     ├── .gitignore
     ├── Dockerfile
     ├── HELP.md
     ├── mvnw
     ├── mvnw.cmd
     ├── pom.xml
-    └── README.md
 ```
 ---
 

@@ -1,4 +1,4 @@
-# 👥 Users Domain — GreenCommerce
+# 👥 Users Domain
 
 The **Users** domain is an essential part of the **GreenCommerce** distributed system, focused on managing user information and profile data. Currently, this domain includes two microservices:
 

@@ -68,7 +68,6 @@ The folder structure follows layered architectural principles, facilitating the 
     ├── mvnw
     ├── mvnw.cmd
     ├── pom.xml
-    └── README.md
 ```
 
 ---
