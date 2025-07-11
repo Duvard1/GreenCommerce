@@ -38,8 +38,8 @@ jobs:
 
       - name: Build and Push Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/list-user-service:latest ./Backend/Domains/Users/ListUser
-          docker push ${{ secrets.DOCKER_USERNAME }}/list-user-service:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/list-user-service:lastest ./Backend/Domains/Users/ListUser
+          docker push ${{ secrets.DOCKER_USERNAME }}/list-user-service:lastest
 
       - name: SSH and Deploy on EC2
         uses: appleboy/ssh-action@v0.1.7
@@ -54,10 +54,10 @@ jobs:
             sudo docker rm list-user-service || true
 
             # Delete old image
-            sudo docker rmi ${{ secrets.DOCKER_USERNAME }}/list-user-service:latest || true
+            sudo docker rmi ${{ secrets.DOCKER_USERNAME }}/list-user-service:lastest || true
 
             # Download the updated image from Docker Hub
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/list-user-service:latest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/list-user-service:lastest
 
             # Create .env in the same folder from where we will run the container
             cd /home/ubuntu
@@ -75,4 +75,4 @@ jobs:
             fi
 
             # Run the new image with the .env
-            sudo docker run -d --env-file .env -p 8081:8081 --name list-user-service ${{ secrets.DOCKER_USERNAME }}/list-user-service:latest
+            sudo docker run -d --env-file .env -p 8081:8081 --name list-user-service ${{ secrets.DOCKER_USERNAME }}/list-user-service:lastest
