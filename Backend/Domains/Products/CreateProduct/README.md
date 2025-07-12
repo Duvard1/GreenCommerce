@@ -126,13 +126,13 @@ input ProductInput {
 ```bash
 mutation {
   createProduct(data: {
-    name: "Cordless Drill",
-    description: "20V Rechargeable Drill with Case",
-    price: 149.99,
-    stock: 25,
-    brand: "DeWalt",
-    category: "Tools",
-    image_url: "https://example.com/taladro.jpg"
+    name: "Product 1",
+    description: "Descripction 1",
+    price: 10.00,
+    stock: 10,
+    brand: "brand 1",
+    category: "category 1",
+    image_url: "https://example.com/product1.jpg"
   })
 }
 ```
