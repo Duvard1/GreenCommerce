@@ -1,0 +1,17 @@
+# Dependencias locales
+node_modules
+npm-debug.log
+yarn.lock
+
+# Archivos de desarrollo
+.env
+*.env.local
+
+# Archivos del sistema
+.DS_Store
+.vscode
+.idea
+
+# Archivos de build
+dist/
+coverage/

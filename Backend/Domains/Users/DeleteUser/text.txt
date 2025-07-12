@@ -1,9 +1,0 @@
-Quiero que me ayudes a construir un microservicio, este microservicio se llamara "DeleteUser", y servirá para eliminar un usuario, te explico como quiero que funcione: cuando un usuario autenticado entre a su página "Ver Perfil" y salga todos sus datos como nombre, apellido, teléfono, etc., ..., quiero que abajo haya un botón que diga "Borrar cuenta", al aplastar ese botón se llamara a este microservicio y se eliminara el usuario por completo, sus datos sus calificaciones, sus reseñas, etc.
-Para ello necesito que ocupes una estructura de carpetas predeterminada y con justificación, también necesito que ocupes una arquitectura de software ya sea REST, SOAP, WebHook, WebSocket, GRPC, GraphQL N-Capas, o MVC. También necesito que ocupes al menos un patrón de diseño como: KISS, SOLID, DRY, YAGNI, o POLA, etc. Y además hay que definir que lenguaje de programación se va a utilizar (java springboot no cuenta), todas estas decisiones deben tener una justificación y estar bien fundamentadas.
-Ten en cuenta que para eliminar un usuario debe conectarse a la base de datos mysql greencommerce_users_db que esta alojada en una instancia rds de aws.
-Primero definamos que tecnologías, arquitectura, flujo de trabajo, entendamos bien teóricamente todo antes de empezar con el Código.
-
-Otras tareas futuras:
-- Api gateway
-- Load Balancer y Auto Scaling Group.
-- Documentación con Swagger.

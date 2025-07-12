@@ -1,9 +1,19 @@
-FROM python:3.11-slim
-
+# stage 1: Build
+FROM node:18 AS builder
 WORKDIR /app
 
+COPY package*.json ./
+RUN npm install
 COPY . .
+RUN npm run build
 
-RUN pip install --no-cache-dir -r requirements.txt
+# stage 2: production image
+FROM node:18
+WORKDIR /app
+COPY --from=builder /app /app
+RUN npm install --omit=dev
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Variables
+ENV NODE_ENV=production
+
+CMD ["node", "dist/app.js"]

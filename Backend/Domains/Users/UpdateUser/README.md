@@ -1,4 +1,4 @@
-# 📄 UpdateUser Microservice — GreenCommerce
+# 📄 UpdateUser Microservice
 
 This microservice is part of the **GreenCommerce** ecosystem, a distributed e-commerce platform for selling lightweight construction materials. The purpose of `UpdateUser` is to expose an endpoint that allows an authenticated user to update their personal information in a MySQL database hosted on AWS RDS.
 
