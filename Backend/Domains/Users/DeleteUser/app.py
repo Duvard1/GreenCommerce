@@ -3,7 +3,6 @@ from fastapi.security import HTTPBearer
 from fastapi.openapi.utils import get_openapi
 from views.delete_user_route import router
 from fastapi.middleware.cors import CORSMiddleware
-from routes import router
 
 app = FastAPI(
     title="Delete User Microservice",
