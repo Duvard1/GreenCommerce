@@ -106,7 +106,6 @@ The schema exposes the following mutation:
 mutation createProduct(data: ProductInput): String
 ```
 
-
 ```bash
 input ProductInput {
   name: String!
