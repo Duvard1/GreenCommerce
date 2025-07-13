@@ -57,4 +57,4 @@ jobs:
               exit 1
             fi
 
-            sudo docker run -d --env-file .env -p 80:3000 --name greencommerce-frontend ${{ secrets.DOCKER_USERNAME }}/greencommerce-frontend:lastest
+            sudo docker run -d --env-file .env -p 3000:3000 --name greencommerce-frontend ${{ secrets.DOCKER_USERNAME }}/greencommerce-frontend:lastest

@@ -221,7 +221,6 @@ export default function RegisterPage() {
           >
             Crear una cuenta personal
           </button>
-
         </form>
       </div>
     </div>
