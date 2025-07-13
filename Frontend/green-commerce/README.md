@@ -63,9 +63,13 @@ yarn
 ### 3. Create a `.env.local` file with your API endpoints:
 
 ```bash
-NEXT_PUBLIC_API_LOGIN=http://44.193.255.85:8082/auth/login
-NEXT_PUBLIC_API_REGISTER=http://44.193.255.85:8081/auth/register
-NEXT_PUBLIC_API_PROFILE=http://3.216.196.163:8081/user/info
+NEXT_PUBLIC_API_REGISTER_URL=http://44...
+NEXT_PUBLIC_API_LOGIN_URL=http://44...
+NEXT_PUBLIC_API_USER_URL=http://3...
+NEXT_PUBLIC_API_PROFILE_URL=http://3...
+NEXT_PUBLIC_API_DELETE_URL=http://3...
+NEXT_PUBLIC_API_PRODUCT_URL=http://52...
+NEXT_PUBLIC_API_GRAPHQL_URL=http://52...
 ```
 
 ### 4. Run the development server:
@@ -75,6 +79,30 @@ npm run dev
 ```
 
 📍 Open http://localhost:3000 in your browser to view the app.
+
+---
+
+## 🐳 Docker Deployment
+
+1. Create a .env file (if you haven't):
+
+```bash
+cp .env.local .env
+```
+
+2. Build the Docker image:
+
+```bash
+docker build -t your_username/greencommerce-frontend .
+```
+
+3. Run the container:
+
+```bash
+docker run -d -p 3000:3000 --env-file .env your_username/greencommerce-frontend
+```
+
+✅ Ensure port 80 (or 3000) is open in your EC2 security group.
 
 ---
 

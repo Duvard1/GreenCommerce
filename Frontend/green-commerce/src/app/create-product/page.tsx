@@ -40,7 +40,6 @@ export default function CreateProductPage() {
     if (file) {
       setImageFile(file);
       setPreview(URL.createObjectURL(file));
-      // en el futuro se usará imageFile en lugar de image_url
     }
   };
 console.log("Formulario que se envía:", formData);
@@ -71,10 +70,9 @@ const handleSubmit = async (e: React.FormEvent) => {
     }
   }
 
-  // Aquí armamos el objeto actualizado fuera del bloque if
   const updatedData = {
     ...formData,
-    image_url: imageUrl || null, // null si no subió nada
+    image_url: imageUrl || null, 
   };
 
   try {

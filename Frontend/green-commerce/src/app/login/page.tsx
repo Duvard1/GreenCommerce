@@ -25,9 +25,6 @@ export default function LoginPage() {
 const [toastMessage, setToastMessage] = useState('');
 const [showToast, setShowToast] = useState(false);
 
-  
-
-
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
