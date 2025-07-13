@@ -8,5 +8,5 @@ export class ProductInput {
   @Field(() => Int, { description: "Quantity in stock" }) stock!: number;
   @Field({ description: "Product Brand" }) brand!: string;
   @Field({ description: "Product Category" }) category!: string;
-  @Field({ description: "Product image URL" }) image_url!: string;
+  @Field({ nullable: true, description: "Product image URL (optional)" }) image_url?: string;
 }

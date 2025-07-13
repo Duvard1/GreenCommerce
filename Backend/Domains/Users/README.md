@@ -1,90 +1,170 @@
 # 👥 Users Domain
 
-The **Users** domain is an essential part of the **GreenCommerce** distributed system, focused on managing user information and profile data. Currently, this domain includes two microservices:
-
-- **ListUser**: Allows authenticated users to retrieve their personal information.
-- **ImageUpload**: Enables users to upload images to **Amazon S3** and publishes an `ImageUploaded` event to **Kafka**.
-
-As the domain is still under development, additional microservices like **DeleteUser** and **UpdateUser** will be added to handle user deletion and updates in the future.
+The Users domain is part of the **GreenCommerce** distributed e-commerce platform. It is responsible for managing user profiles, allowing authenticated users to retrieve, update, and delete their own information. This domain follows REST architecture and JWT-based authentication.
 
 ---
 
-## 🚀 Technologies Used
+## ⚙️ Technologies
 
-- **Python 3.10**  
-- **Flask**: Lightweight web framework  
-- **MySQL**: Database for storing user data  
-- **Boto3**: AWS client for file uploads to **Amazon S3**  
-- **Kafka + Zookeeper**: Event-driven architecture  
-- **Docker + Docker Compose**: Containerization and orchestration  
-
----
-
-## 🛠 Microservices in Users Domain
-
-### 1. **ListUser Microservice**
-
-This service allows authenticated users to retrieve their personal information from the database. It requires a JWT token in the `Authorization` header to fetch the user’s data.
-
-- **Endpoint**: `GET http://localhost:8081/user/info`
-- **Headers**: `Authorization: Bearer <JWT_TOKEN>`
-
-### 2. **ImageUpload Microservice**
-
-This service allows users to upload profile images to **Amazon S3**. It also triggers an `ImageUploaded` event to **Kafka** in an **Event-Driven** architecture.
-
-- **Endpoint**: `POST http://localhost:5000/upload`
-- **Body**: `userId`, `image` (Image file)
-- **Response**: Returns a success message and the image URL
+- 🐍 Python 3.11
+- ⚡ FastAPI
+- 🐬 MySQL (AWS RDS)
+- 🐳 Docker & Docker Compose
+- 🔒 JWT
 
 ---
 
-## 🔧 How to Run the Users Domain Locally
+📁 Project Structure
 
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/your_user/users-domain.git
-cd users-domain
+```
+└── 📁Users
+    └── 📁DeleteUser
+        └── 📁controllers
+            ├── __init__.py
+            ├── delete_user_controller.py
+        └── 📁models
+            ├── __init__.py
+            ├── user_model.py
+        └── 📁views
+            ├── __init__.py
+            ├── delete_user_route.py
+        ├── .env
+        ├── app.py
+        ├── Dockerfile
+        ├── main.py
+        ├── requirements.txt
+        ├── utils.py
+    └── 📁ListUser
+        └── 📁app
+            └── 📁api
+                ├── routes.py
+            └── 📁application
+                ├── user_usecase.py
+            └── 📁config
+                ├── settings.py
+            └── 📁models
+                ├── user_model.py
+            └── 📁repository
+                ├── user_repository.py
+            └── 📁utils
+                ├── jwt_utils.py
+                ├── logger.py
+            ├── main.py
+        └── 📁tests
+            ├── test_endpoint.py
+        ├── .env
+        ├── Dockerfile
+        ├── requirements.txt
+    └── 📁UpdateUser
+        └── 📁app
+            └── 📁api
+                ├── routes.py
+            └── 📁application
+                ├── update_user_usecase.py
+            └── 📁config
+                ├── settings.py
+            └── 📁domain
+                ├── dto.py
+            └── 📁repository
+                ├── user_repository.py
+            └── 📁utils
+                ├── jwt_utils.py
+                ├── logger.py
+            ├── main.py
+        └── 📁tests
+            ├── test_update_user.py
+        ├── .env
+        ├── Dockerfile
+        ├── pytest.ini
+        ├── requirements.txt
 ```
 
+---
 
-### 2. Set up the environment for each microservice
-For both ListUser and ImageUpload services, make sure to configure the necessary environment variables, including AWS credentials for ImageUpload and MySQL configuration for ListUser.
+## 📦 Microservices
 
-## ☁️ AWS Configuration (for ImageUpload)
+| **Microservice** |                            **Description**                            | **Programming Language** |   **Sofware Architecture**  | **Design Pattern** |
+|:----------------:|:---------------------------------------------------------------------:|:------------------------:|:---------------------------:|:------------------:|
+|     ListUser     | Allows authenticated users to fetch their own user profile from MySQL |     Python (FastAPI)     | Layered Architecture + REST |       💋 KISS       |
+|    DeleteUser    | Authenticated users can delete their own account securely via JWT     |     Python (FastAPI)     |          REST + MVC         |       🧼 YAGNI      |
+|    UpdateUser    | Updates the authenticated user's information in MySQL.                |     Python (FastAPI)     | Layered Architecture + REST |       📐 SOLID      |
 
-Ensure you have the correct AWS Academy credentials and add them to your .env file.
+---
+
+## 📘 Swagger Documentation
+
+Each service provides Swagger UI for testing endpoints:
+- **ListUser:** `http://localhost:8081/docs`
+- **DeleteUser:** `http://localhost:8003/docs`
+- **UpdateUser:** `http://localhost:8082/docs`
+
+Steps:
+
+1. Open URL in browser.
+2. Click Authorize and enter your JWT.
+3. Use Try it out to interact with the endpoint.
+
+---
+
+## 🐳 Run with Docker
+
+1. Clean up old containers and images (optional)
 
 ```bash
-AWS_ACCESS_KEY_ID=...
-AWS_SECRET_ACCESS_KEY=...
-AWS_SESSION_TOKEN=...
-AWS_REGION=us-east-..
-S3_BUCKET_NAME=lightbuild-user-images
-KAFKA_BROKER=localhost:9092
-KAFKA_TOPIC=user.image.uploaded
+docker ps -a
+docker rm <container_id>
+docker images
+docker rmi <image_id>
+```
+
+### 🧠 ListUser Microservice
+
+```bash
+docker build -t your_user/list-user-service:lastest 
+docker run --env-file .env -p 8081:8081 your_user/list-user-service:lastest
+```
+
+#### Endpoint:
+
+```bash
+GET http://localhost:8081/user/info
+Headers: Authorization: Bearer <JWT_TOKEN>
+```
+
+### 🗑️ DeleteUser Microservice
+
+```bash
+docker build -t your_user/delete-user-service:lastest
+docker run --env-file .env -p 8003:8003 your_user/delete-user-service:lastest
+```
+
+#### Endpoint:
+
+```bash
+DELETE http://localhost:8003/delete-user
+Headers: Authorization: Bearer <JWT_TOKEN>
+```
+
+### 🖼️ UpdateUser Microservice
+
+```bash
+docker build -t your_user_docker/update-user-service:lastest .
+docker run -d --env-file .env -p 8082:8082 --name update-user user_name_docker/update-user-service:lastest
+```
+
+#### Endpoint:
+
+```bash
+PUT /user/update
+Authorization: Bearer <jwt_token>
+Content-Type: application/json
 ```
 
 ---
 
-## 🐳 Docker Compose for Local Development
+## 🧑‍💻 Author
 
-Run both microservices with Docker Compose to set up Kafka and other dependencies locally.
-
-```bash
-docker-compose up --build -d
-```
-
-## ⚙️ Upcoming Microservices
-- DeleteUser: This microservice will allow administrators to delete user accounts from the system.
-
-- UpdateUser: This microservice will allow users to update their personal information in the database.
-
-- These microservices will be integrated into the Users domain as it evolves.
-
-
-### 🧑‍💻 Author
-Developed by: Duvard Cisneros
-
-Project: GreenCommerce – Distributed Programming, UCE
+- **Project:** GreenCommerce
+- **Developed:** Duvard Cisneros
+- **Institution:** Central University of Ecuador - Distributed Programming 
+- **Professor:** Juan Pablo Guevara

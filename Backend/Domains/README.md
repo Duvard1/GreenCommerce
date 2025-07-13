@@ -31,11 +31,11 @@ This folder contains all backend microservices for **Green Commerce**, organized
 
 ## 🛠️ Technologies by Domain
 
-|   **Domain**   | **Language** | **Framework** | **DB** |
-|:--------------:|:------------:|:-------------:|:------:|
-| Authentication |     Java     |  Spring Boot  |  MySQL |
-|      Users     |    Python    |    FastAPI    |  MySQL |
-
+|   **Domain**   | **Language** | **Framework** |   **DB**   |
+|:--------------:|:------------:|:-------------:|:----------:|
+| Authentication |     Java     |  Spring Boot  |    MySQL   |
+|      Users     |    Python    |    FastAPI    |    MySQL   |
+|    Products    |  Typescript  |    Node.js    | MySQL & S3 |
 ---
 
 ## 🧪 Testing

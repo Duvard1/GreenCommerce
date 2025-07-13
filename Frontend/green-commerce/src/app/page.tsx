@@ -4,14 +4,23 @@ import axios from 'axios';
 import { FiChevronDown, FiChevronUp, FiSearch } from 'react-icons/fi';
 import Header from '@/components/Header';
 import Footer from "@/components/Footer";
+import { useRouter } from 'next/navigation';
+
 
 export default function Home() {
   const [productos, setProductos] = useState<any[]>([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [busqueda, setBusqueda] = useState('');
+  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    axios.get('http://TU_API_PRODUCTS/products') // Cambia por tu microservicio real
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
+  }, []);
+
+  useEffect(() => {
+    axios.get('http://TU_API_PRODUCTS/products')
       .then(response => setProductos(response.data))
       .catch(error => console.error(error));
   }, []);
@@ -38,14 +47,26 @@ export default function Home() {
 
       {/* Barra de filtros */}
       <div className="flex flex-wrap justify-center gap-4 mb-6">
-        {['Todos', 'Categorías', 'Ofertas', '5 Estrellas', 'Guardado', 'Vender'].map((filtro) => (
-          <button
-            key={filtro}
-            className="px-4 py-2 bg-gray-300 rounded-full hover:bg-emerald-700 hover:text-white text-sm font-medium"
-          >
-            {filtro}
-          </button>
-        ))}
+{['Todos', 'Categorías', 'Ofertas', '5 Estrellas', 'Guardado']
+  .concat(isLoggedIn ? ['Vender'] : [])
+  .map((filtro) => (
+    <button
+      key={filtro}
+      onClick={() => {
+        if (filtro === 'Vender') {
+          router.push('/create-product');
+        } else {
+          console.log('Filtro:', filtro);
+        }
+      }}
+      className="px-4 py-2 bg-gray-300 rounded-full hover:bg-emerald-700 hover:text-white text-sm font-medium"
+    >
+      {filtro}
+    </button>
+))}
+
+
+
       </div>
 
       {/* Categorías */}

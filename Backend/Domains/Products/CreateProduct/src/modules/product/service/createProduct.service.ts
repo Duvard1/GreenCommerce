@@ -6,6 +6,7 @@ export async function createProductService(data: ProductInput): Promise<string> 
   try {
     logger.info(`Trying to create product: ${JSON.stringify(data)}`);
     await insertProduct(data);
+    logger.info(`Recibido: ${JSON.stringify(data)}`);
     logger.info(`Product successfully created: ${data.name}`);
     return 'Product successfully created';
   } catch (error) {

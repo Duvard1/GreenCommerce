@@ -11,7 +11,7 @@ export async function insertProduct(product: ProductInput): Promise<void> {
       product.stock,
       product.brand,
       product.category,
-      product.image_url,
+      product.image_url || null,
     ]
   );
 }

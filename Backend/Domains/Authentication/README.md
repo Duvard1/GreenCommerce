@@ -110,3 +110,10 @@ docker run --env-file .env -p 8082:8082 your_user/login-service:latest
 ```
 
 ---
+
+## 🧑‍💻 Author
+
+- **Project:** GreenCommerce
+- **Developed:** Duvard Cisneros
+- **Institution:** Central University of Ecuador - Distributed Programming 
+- **Professor:** Juan Pablo Guevara
