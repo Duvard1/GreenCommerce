@@ -23,8 +23,8 @@ jobs:
 
       - name: Build and Push Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/upload-image-service:latest ./Backend/Domains/Products/UploadImage
-          docker push ${{ secrets.DOCKER_USERNAME }}/upload-image-service:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/upload-image-service:lastest ./Backend/Domains/Products/UploadImage
+          docker push ${{ secrets.DOCKER_USERNAME }}/upload-image-service:lastest
 
       - name: SSH and Deploy on EC2
         uses: appleboy/ssh-action@v0.1.7
@@ -37,9 +37,9 @@ jobs:
             sudo docker stop upload-image-service || true
             sudo docker rm upload-image-service || true
 
-            sudo docker rmi ${{ secrets.DOCKER_USERNAME }}/upload-image-service:latest || true
+            sudo docker rmi ${{ secrets.DOCKER_USERNAME }}/upload-image-service:lastest || true
 
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/upload-image-service:latest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/upload-image-service:lastest
 
             cd /home/ubuntu
 
@@ -60,4 +60,4 @@ jobs:
               exit 1
             fi
 
-            sudo docker run -d --env-file .env -p 3008:3008 --name upload-image-service ${{ secrets.DOCKER_USERNAME }}/upload-image-service:latest
+            sudo docker run -d --env-file .env -p 3008:3008 --name upload-image-service ${{ secrets.DOCKER_USERNAME }}/upload-image-service:lastest

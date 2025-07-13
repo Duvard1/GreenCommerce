@@ -7,7 +7,6 @@ This microservice is part of the **GreenCommerce** ecosystem, a distributed e-co
 ## ⚙️ Functionality
 
 The `CreateProduct` microservice exposes a `createProduct` GraphQL mutation that receives structured input with product information. The data is validated and stored in a MySQL table (`products`) on RDS.
-
 This service includes centralized logging using Winston and is ready for containerized deployment using Docker.
 
 ---

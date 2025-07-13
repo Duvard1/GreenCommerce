@@ -86,6 +86,7 @@ This test verifies that the microservice can successfully connect to the MySQL d
 
 ```bash
 pytest tests/test_update_user.py
+
 ```
 
 ---

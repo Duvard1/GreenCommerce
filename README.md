@@ -43,12 +43,19 @@ GreenCommerce is a distributed e-commerce platform designed to promote and sell 
 ```
 
 ---
-| Microservice |                                        Description                                        |  Programming Language | Software Architecture | Design Pattern |
-|:------------:|:-----------------------------------------------------------------------------------------:|:---------------------:|:---------------------:|----------------|
-|     Login    |      Enables user authentication by verifying credentials and generating JWT tokens.      | Java 17 (Spring Boot) |  Layered Architecture | 💋 KISS         |
-|   Register   | Handles user registration in the MySQL database with validations and password encryption. | Java 17 (Spring Boot) |  Layered Architecture | 🔥 DRY          |
-|   ListUser   |                  Returns the authenticated user's data using a JWT token.                 | Python 3.11 (FastAPI) |          REST         | 💋 KISS         |
 
+## 📦 Microservices
+
+| **Microservice** |                                      **Description**                                      | **Programming Language** |    **Sofware Architecture**    | **Design Pattern** |
+|:----------------:|:-----------------------------------------------------------------------------------------:|:------------------------:|:------------------------------:|:------------------:|
+|       Login      | Enables user authentication by verifying credentials and generating JWT tokens.           |   Java 17 (Spring Boot)  |   Layered Architecture + REST  |       💋 KISS       |
+|     Register     | Handles user registration in the MySQL database with validations and password encryption. |   Java 17 (Spring Boot)  |   Layered Architecture + REST  |        🔥 DRY       |
+|     ListUser     | Returns the authenticated user's data using a JWT token.                                  |     Python (FastAPI)     |   Layered Architecture + REST  |       💋 KISS       |
+|     ListUser     | Allows authenticated users to fetch their own user profile from MySQL                     |     Python (FastAPI)     |   Layered Architecture + REST  |       💋 KISS       |
+|    DeleteUser    | Authenticated users can delete their own account securely via JWT                         |     Python (FastAPI)     |           MVC + REST           |       🧼 YAGNI      |
+|    UpdateUser    | Updates the authenticated user's information in MySQL.                                    |     Python (FastAPI)     |   Layered Architecture + REST  |       📐 SOLID      |
+|   CreateProduct  | Receives product data and persists it in a MySQL database via GraphQL API                 | TypeScript (Node.js)     | Layered Architecture + GraphQL |       📐 SOLID      |
+|    UploadImage   | Uploads product images to AWS S3 and returns a public URL                                 | TypeScript (Node.js)     |   Layered Architecture + REST  |       💋 KISS       |
 ---
 
 ## 🧑‍💻 Author

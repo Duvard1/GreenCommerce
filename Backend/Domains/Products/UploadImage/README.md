@@ -126,6 +126,7 @@ curl -X POST http://localhost:3008/product/upload \
   "message": "Image uploaded successfully",
   "url": "https://greencommerce-product-images.s3.amazonaws.com/products/uuid-nombre.png"
 }
+
 ```
 
 ---
