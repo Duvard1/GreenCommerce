@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import Link from 'next/link';
-import { ENDPOINTS } from '@/lib/api/endpoints';
 
 
 export default function RegisterPage() {
@@ -33,7 +32,8 @@ export default function RegisterPage() {
     e.preventDefault();
     console.log('Datos a enviar:', formData);
 
-    fetch(ENDPOINTS.AUTH.REGISTER, {
+
+    fetch('http://44.193.255.85:8081/auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

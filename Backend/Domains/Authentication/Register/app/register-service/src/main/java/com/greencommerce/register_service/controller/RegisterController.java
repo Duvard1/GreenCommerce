@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 @Tag(name = "Auth", description = "User registration microservice")
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = "*") 
 public class RegisterController {
     private static final Logger logger = LoggerFactory.getLogger(RegisterController.class);
     @Autowired

@@ -23,8 +23,8 @@ jobs:
 
       - name: Build and Push Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/greencommerce-frontend:latest ./Frontend/green-commerce
-          docker push ${{ secrets.DOCKER_USERNAME }}/greencommerce-frontend:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/greencommerce-frontend:lastest ./Frontend/green-commerce
+          docker push ${{ secrets.DOCKER_USERNAME }}/greencommerce-frontend:lastest
 
       - name: SSH and Deploy on EC2
         uses: appleboy/ssh-action@v0.1.7
@@ -38,9 +38,9 @@ jobs:
             sudo docker stop greencommerce-frontend || true
             sudo docker rm greencommerce-frontend || true
 
-            sudo docker rmi ${{ secrets.DOCKER_USERNAME }}/greencommerce-frontend:latest || true
+            sudo docker rmi ${{ secrets.DOCKER_USERNAME }}/greencommerce-frontend:lastest || true
 
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/greencommerce-frontend:latest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/greencommerce-frontend:lastest
 
             cd /home/ubuntu
 
@@ -57,4 +57,4 @@ jobs:
               exit 1
             fi
 
-            sudo docker run -d --env-file .env -p 80:3000 --name greencommerce-frontend ${{ secrets.DOCKER_USERNAME }}/greencommerce-frontend:latest
+            sudo docker run -d --env-file .env -p 80:3000 --name greencommerce-frontend ${{ secrets.DOCKER_USERNAME }}/greencommerce-frontend:lastest
