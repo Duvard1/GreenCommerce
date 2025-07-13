@@ -238,5 +238,3 @@ http://localhost:8082/docs
 - **Developed:** Duvard Cisneros
 - **Institution:** Central University of Ecuador - Distributed Programming 
 - **Professor:** Juan Pablo Guevara
-
-
