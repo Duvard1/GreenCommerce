@@ -53,12 +53,18 @@ jobs:
             mkdir -p ~/register-deploy
             cd ~/register-deploy
 
-            # Stop and remove old containers
-            sudo docker ps -aq | xargs -r sudo docker stop
-            sudo docker ps -aq | xargs -r sudo docker rm
+            # Stop and remove only register-service containers
+            REGISTER_CONTAINERS=$(sudo docker ps -aq --filter ancestor=${{ secrets.DOCKER_USERNAME }}/register-service:latest)
+            if [ -n "$REGISTER_CONTAINERS" ]; then
+              sudo docker stop $REGISTER_CONTAINERS
+              sudo docker rm $REGISTER_CONTAINERS
+            fi
 
-            # Delete old images
-            sudo docker images -q | xargs -r sudo docker rmi -f
+            # Remove only register-service image
+            REGISTER_IMAGE=$(sudo docker images -q ${{ secrets.DOCKER_USERNAME }}/register-service:latest)
+            if [ -n "$REGISTER_IMAGE" ]; then
+              sudo docker rmi -f $REGISTER_IMAGE
+            fi
 
             # Download new image
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/register-service:latest

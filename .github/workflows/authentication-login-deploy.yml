@@ -38,12 +38,18 @@ jobs:
             mkdir -p ~/login-deploy
             cd ~/login-deploy
 
-            # Stop and remove old containers
-            sudo docker ps -aq | xargs -r sudo docker stop
-            sudo docker ps -aq | xargs -r sudo docker rm
+            # Stop and remove only login-service containers
+            LOGIN_CONTAINERS=$(sudo docker ps -aq --filter ancestor=${{ secrets.DOCKER_USERNAME }}/login-service:latest)
+            if [ -n "$LOGIN_CONTAINERS" ]; then
+              sudo docker stop $LOGIN_CONTAINERS
+              sudo docker rm $LOGIN_CONTAINERS
+            fi
 
-            # Delete old images
-            sudo docker images -q | xargs -r sudo docker rmi -f
+            # Remove only login-service image
+            LOGIN_IMAGE=$(sudo docker images -q ${{ secrets.DOCKER_USERNAME }}/login-service:latest)
+            if [ -n "$LOGIN_IMAGE" ]; then
+              sudo docker rmi -f $LOGIN_IMAGE
+            fi
 
             # Download new image
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/login-service:latest
