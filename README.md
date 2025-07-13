@@ -50,7 +50,6 @@ GreenCommerce is a distributed e-commerce platform designed to promote and sell 
 |:----------------:|:-----------------------------------------------------------------------------------------:|:------------------------:|:------------------------------:|:------------------:|
 |       Login      | Enables user authentication by verifying credentials and generating JWT tokens.           |   Java 17 (Spring Boot)  |   Layered Architecture + REST  |       💋 KISS       |
 |     Register     | Handles user registration in the MySQL database with validations and password encryption. |   Java 17 (Spring Boot)  |   Layered Architecture + REST  |        🔥 DRY       |
-|     ListUser     | Returns the authenticated user's data using a JWT token.                                  |     Python (FastAPI)     |   Layered Architecture + REST  |       💋 KISS       |
 |     ListUser     | Allows authenticated users to fetch their own user profile from MySQL                     |     Python (FastAPI)     |   Layered Architecture + REST  |       💋 KISS       |
 |    DeleteUser    | Authenticated users can delete their own account securely via JWT                         |     Python (FastAPI)     |           MVC + REST           |       🧼 YAGNI      |
 |    UpdateUser    | Updates the authenticated user's information in MySQL.                                    |     Python (FastAPI)     |   Layered Architecture + REST  |       📐 SOLID      |

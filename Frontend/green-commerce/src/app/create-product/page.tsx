@@ -4,6 +4,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from 'next/link';
+import { ENDPOINTS } from '@/lib/api/endpoints';
+
 
 export default function CreateProductPage() {
   const router = useRouter();
@@ -54,7 +56,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     uploadForm.append("image", imageFile);
 
     try {
-      const uploadResponse = await fetch("http://localhost:3008/product/upload", {
+      const uploadResponse = await fetch(ENDPOINTS.PRODUCT.UPLOAD_IMAGE, {
         method: "POST",
         body: uploadForm,
       });
@@ -76,7 +78,7 @@ const handleSubmit = async (e: React.FormEvent) => {
   };
 
   try {
-    const response = await fetch("http://52.54.233.190:3000/graphql", {
+    const response = await fetch(ENDPOINTS.PRODUCT.CREATE_GRAPHQL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { FiEye, FiEyeOff, FiUpload } from 'react-icons/fi';
 import Link from 'next/link';
+import { ENDPOINTS } from '@/lib/api/endpoints';
+
 
 export default function ProfilePage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -27,7 +29,7 @@ export default function ProfilePage() {
   const [modalMessage, setModalMessage] = useState('');
   useEffect(() => {
     const token = localStorage.getItem('token');
-    fetch('http://3.216.196.163:8081/user/info', {
+    fetch(ENDPOINTS.USER.INFO,  {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())
@@ -44,7 +46,7 @@ export default function ProfilePage() {
     e.preventDefault();
     const token = localStorage.getItem('token');
     try {
-      const res = await fetch('http://3.216.196.163:8082/user/update', {
+      const res = await fetch(ENDPOINTS.USER.UPDATE, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +85,7 @@ export default function ProfilePage() {
     const token = localStorage.getItem('token');
     setIsDeleting(true);
     try {
-      const res = await fetch('http://3.216.196.163:8003/delete-user', {
+      const res = await fetch(ENDPOINTS.USER.DELETE, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,

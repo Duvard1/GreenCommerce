@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import Link from 'next/link';
+import { ENDPOINTS } from '@/lib/api/endpoints';
+
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -24,63 +26,54 @@ export default function RegisterPage() {
     });
   };
 
-
-
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Datos a enviar:', formData);
 
-
-
-
-
-
-
-const handleSubmit = (e: React.FormEvent) => {
-  e.preventDefault();
-  console.log('Datos a enviar:', formData);
-
-  fetch('http://44.193.255.85:8081/auth/register', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(formData),
-  })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Error al registrar usuario');
-      }
-      return response.text();
+    fetch(ENDPOINTS.AUTH.REGISTER, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
     })
-    .then(data => {
-      console.log('Respuesta:', data);
-      setModalMessage('Usuario registrado exitosamente');
-      setShowModal(true);
-    })
-    .catch(error => {
-      console.error(error);
-      setModalMessage('Hubo un error al registrar el usuario');
-      setShowModal(true);
-    });
-};
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Error al registrar usuario');
+        }
+        return response.text();
+      })
+      .then(data => {
+        console.log('Respuesta:', data);
+        setModalMessage('Usuario registrado exitosamente');
+        setShowModal(true);
+      })
+      .catch(error => {
+        console.error(error);
+        setModalMessage('Hubo un error al registrar el usuario');
+        setShowModal(true);
+      });
+  };
 
   return (
 
     <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-100">
       {showModal && (
-  <div className="fixed inset-0  flex items-center justify-center bg-gray-300  z-50">
-    <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
-      <p className="mb-4 text-lg">{modalMessage}</p>
-      <button
-        onClick={() => setShowModal(false)}
-        className="px-6 py-2 bg-emerald-700 text-white rounded-full hover:bg-emerald-800"
-      >
-        Cerrar
-      </button>
-    </div>
-  </div>
-)}
+        <div className="fixed inset-0  flex items-center justify-center bg-gray-300  z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
+            <p className="mb-4 text-lg">{modalMessage}</p>
+            <button
+              onClick={() => setShowModal(false)}
+              className="px-6 py-2 bg-emerald-700 text-white rounded-full hover:bg-emerald-800"
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
       <div className="mb-4  rounded-full text-white bg-emerald-700 hover:bg-emerald-800">
         <Link href="/" className="flex items-center px-6 py-4 text-sm font-semibold ">
           ← Volver al inicio
