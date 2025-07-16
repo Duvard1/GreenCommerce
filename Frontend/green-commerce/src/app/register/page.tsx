@@ -33,7 +33,7 @@ export default function RegisterPage() {
     console.log('Datos a enviar:', formData);
 
 
-    fetch('http://44.193.255.85:8081/auth/register', {
+    fetch('http://13.219.106.149/auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
